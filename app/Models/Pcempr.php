@@ -2,13 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Pcempr extends Model
+class Pcempr extends Model implements Authenticatable
 {
-    use HasFactory;
+    use \Illuminate\Auth\Authenticatable;
+
     protected $connection = 'oracle';
     protected $table = 'pcempr';
     protected $primaryKey = 'matricula';
+
+    protected $fillable = [
+        'matricula',
+        'nome',
+        'nome_guerra',
+        // Outros campos que você precisa
+    ];
+
+
 }

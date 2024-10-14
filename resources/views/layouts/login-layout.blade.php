@@ -26,6 +26,7 @@
     </div>
 </section>
 @fluxScripts
+<x-livewire-alert::scripts />
 </body>
 </html>
 
