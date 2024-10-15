@@ -24,14 +24,15 @@
                                             <label class="form-label">Nome do Produto</label>
                                             <input class="form-control" type="text" readonly placeholder="Nome do produto será preenchido" value="{{ $nome }}">
                                         </div>
-                                        <div class="col-md">
-                                            <label class="form-label">Quantidade</label>
-                                            <input class="form-control" type="number" placeholder="Digite a quantidade" wire:model="quantidade">
-                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="row">
+                                        <div class="col-md">
+                                            <label class="form-label">Quantidade</label>
+                                            <input class="form-control" type="number" placeholder="Digite a quantidade" wire:model="quantidade">
+                                        </div>
                                         <div class="col-md">
                                             <label class="form-label">Valor Produto</label>
                                             <input class="form-control" type="text" placeholder="Valor do produto" readonly value="{{ $valor }}" id="valor_produto">
