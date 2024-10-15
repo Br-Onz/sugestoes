@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @vite(['resources/css/main.css'])
+    @vite(['resources/css/main.css', 'resources/css/app.css'])
     @fluxStyles
 </head>
 <body class="app sidebar-mini " x-data="{ open: true }" :class="open ? '' : 'sidenav-toggled' ">
@@ -19,9 +19,12 @@
     <!-- Navbar Right Menu-->
     <ul class="app-nav">
         <!-- User Menu-->
-        <li class="dropdown"><a class="app-nav__item" href="#" data-bs-toggle="dropdown" aria-label="Open Profile Menu"><i class="bi bi-person fs-4"></i></a>
+        <li class="dropdown">
+            <a class="app-nav__item" href="#" data-bs-toggle="dropdown" aria-label="Open Profile Menu"><i class="bi bi-person fs-4"></i></a>
             <ul class="dropdown-menu settings-menu dropdown-menu-right">
-                <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2 fs-5"></i> Logout</a></li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2 fs-5"></i> Logout</a>
+                </li>
             </ul>
         </li>
     </ul>
@@ -30,9 +33,8 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
     <div class="app-sidebar__user">
-        <div>
-            <p class="app-sidebar__user-name">{{ auth()->user()->nome }}</p>
-            <p class="app-sidebar__user-name">{{ auth()->user()->matricula }}</p>
+        <div class="d-grid align-items-center justify-center">
+            <p class="app-sidebar__user-name">{{ auth()->user()->nome_guerra }}</p>
         </div>
     </div>
     <ul class="app-menu">
@@ -59,6 +61,7 @@
     </div>
 </main>
 @fluxScripts
+<x-livewire-alert::scripts />
 </body>
 </html>
 

@@ -1,4 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "main.css";
 
+.swal2-title{
+    text-align: center !important;
+}
+.swal2-actions {
+    justify-content: center !important;
+}
+
+.swal2-popup.swal2-toast .swal2-styled {
+    width: 70px !important;
+}

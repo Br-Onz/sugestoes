@@ -28,8 +28,6 @@ class Login extends Component
             ->whereRaw('decrypt(senhabd, usuariobd) = ?', [strtoupper($this->password)])
             ->first();
 
-        dd($pcempr);
-
         if (!$pcempr) {
             $this->alert('error', 'Login ou senha inválida', [
                 'timer' => 3000,

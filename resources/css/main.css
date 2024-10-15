@@ -13993,7 +13993,7 @@ textarea.form-control-lg {
 .btn .icon,
 .btn .bi {
     font-size: 14px;
-    margin-right: 5px;
+    /*margin-right: 5px;*/
     vertical-align: 0px;
 }
 

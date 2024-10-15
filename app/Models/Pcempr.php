@@ -17,7 +17,6 @@ class Pcempr extends Model implements Authenticatable
         'matricula',
         'nome',
         'nome_guerra',
-        // Outros campos que você precisa
     ];
 
 
