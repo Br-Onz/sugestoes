@@ -38,20 +38,17 @@
         </div>
     </div>
     <ul class="app-menu">
-        <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-house"></i><span class="app-menu__label">Home</span></a></li>
-        <li><a class="app-menu__item some_no_mobile"  window.location.reload() href="/mesas"><i class="app-menu__icon bi bi-calendar4-week"></i><span class="app-menu__label">Mesas</span></a></li>
-        <li><a class="app-menu__item some_no_mobile"  window.location.reload() href="/balcao"><i class="app-menu__icon bi bi-cast"></i><span class="app-menu__label">Balcão</span></a></li>
-        <li><a class="app-menu__item"  window.location.reload() href="/mobile"><i class="app-menu__icon bi bi-phone-flip"></i><span class="app-menu__label">Mobile</span></a></li>
-
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-laptop"></i><span class="app-menu__label">Cadastros</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
-            <ul class="treeview-menu">
-                <li><a class="treeview-item" window.location.reload() href="/cadprodutos"><i class="icon bi bi-circle-fill"></i> Cadastro de produtos</a></li>
-                <li><a class="treeview-item" window.location.reload() href="/grupos" rel="noopener"><i class="icon bi bi-circle-fill"></i> Grupos de produtos</a></li>
-                <li><a class="treeview-item" window.location.reload() href="/produtos"><i class="icon bi bi-circle-fill"></i> Produtos</a></li>
-                <li><a class="treeview-item" window.location.reload() href="/impressoras"><i class="icon bi bi-circle-fill"></i> Impressoras</a></li>
-                <li><a class="treeview-item" window.location.reload() href="/usuarios"><i class="icon bi bi-circle-fill"></i> Usuários</a></li>
-            </ul>
-        </li>
+        @foreach(auth()->user()->pccontroi as $Pccontroi)
+            @if($Pccontroi->codrotina == 1444)
+                @if($Pccontroi->codcontrole == 1 && $Pccontroi->acesso =='S')
+                    <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-card-text"></i><span class="app-menu__label">Sugestão</span></a></li>
+                    <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-check2"></i><span class="app-menu__label">Solicitados</span></a></li>
+                @endif
+                @if($Pccontroi->codcontrole == 2 && $Pccontroi->acesso =='S')
+                    <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-graph-up-arrow"></i><span class="app-menu__label">Avaliar</span></a></li>
+                @endif
+            @endif
+        @endforeach
     </ul>
 </aside>
 <main class="app-content">
