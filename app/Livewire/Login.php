@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\Pccontro;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\Pcempr;
-use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Login extends Component
@@ -22,11 +22,17 @@ class Login extends Component
 
     public function login()
     {
+        $codrotina = 1444;
         $this->validate(); // Valida o loginName e password
 
-        $pcempr = Pcempr::where('nome_guerra', strtoupper($this->loginName))
-            ->whereRaw('decrypt(senhabd, usuariobd) = ?', [strtoupper($this->password)])
+        //Valida Login e retorna Pccontroi para Parametrizar a HOME
+        $pcempr = Pcempr::with(['pccontroi' => function ($query) use ($codrotina) {
+            $query->where('codrotina', $codrotina);
+        }])
+            ->where('usuariobd', strtoupper($this->loginName))
+            ->whereRaw('decrypt(senhabd,usuariobd) = ?', strtoupper($this->password))
             ->first();
+
 
         if (!$pcempr) {
             $this->alert('error', 'Login ou senha inválida', [
@@ -37,25 +43,14 @@ class Login extends Component
             return;
         }
 
-        $permiss = DB::select(
-            "SELECT cc.codusuario,
-                    cc.codrotina,
-                    cc.acesso,
-                    ii.codcontrole,
-                    NVL(TRIM(p.funcao), '') AS funcao,
-                    matricula,
-                    TRIM(decrypt(p.senhabd, p.usuariobd)) AS senha
-             FROM pccontro cc, pcempr p, pccontroi ii
-             WHERE cc.codrotina = ?
-                AND cc.codusuario = p.matricula
-                AND ii.codusuario = p.matricula
-                AND ii.codrotina = cc.codrotina
-                AND UPPER(TRIM(p.nome_guerra)) = UPPER(?)
-                AND UPPER(TRIM(decrypt(p.senhabd, p.usuariobd))) = UPPER(?)",
-            [1444, $this->loginName, strtoupper($this->password)]
-        );
+        $pccontro = Pccontro::where('codrotina', $codrotina)
+            ->where('acesso', 'S')
+            ->where('codusuario', $pcempr->matricula)
+            ->first();
 
-        if (!$permiss){
+
+        if (!$pccontro) {
+
             $this->alert('error', 'Usuário sem permissão para acessar o sistema', [
                 'timer' => 3000,
                 'toast' => true,
@@ -64,10 +59,13 @@ class Login extends Component
             return;
         }
 
-        if ($pcempr && $permiss) {
+        if ($pcempr) {
+
             Auth::login($pcempr);
+
             return redirect()->route('home');
         }
+
     }
 
     public function render()
