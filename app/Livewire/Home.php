@@ -105,6 +105,7 @@ class Home extends Component
         }
     }
 
+
     public function adicionarItem()
     {
         $this->validate([
