@@ -17,16 +17,23 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md">
+                                            <label class="form-label">Filial</label>
+                                            <select class="form-select" wire:model="codfilial">
+                                                @foreach ($pclib_fil as $index => $item)
+                                                    @if($index == 0)
+                                                        <option value="">Escolha uma Filial</option>
+                                                    @endif
+                                                    <option value="{{ $item->codigoa }}">FILIAL {{ $item->codigoa }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md">
                                             <label class="form-label">Código do Produto</label>
-                                            <input class="form-control" type="text" placeholder="Digite o código" wire:model="codigo">
+                                            <input class="form-control" type="number" placeholder="Digite o código" wire:model="codigo" >
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Nome do Produto</label>
-                                            <input class="form-control" type="text" readonly placeholder="Nome do produto será preenchido" value="{{ $nome }}">
-                                        </div>
-                                        <div class="col-md">
-                                            <label class="form-label">Quantidade</label>
-                                            <input class="form-control" type="number" placeholder="Digite a quantidade" wire:model="quantidade">
+                                            <input class="form-control" type="text" readonly placeholder="Nome do produto será preenchido" value="@if($nome) {{ $nome }} | {{$unid}}  @endif" id="nome_produto">
                                         </div>
                                     </div>
                                 </div>
@@ -35,6 +42,10 @@
                                         <div class="col-md">
                                             <label class="form-label">Valor Produto</label>
                                             <input class="form-control" type="text" placeholder="Valor do produto" readonly value="{{ $valor }}" id="valor_produto">
+                                        </div>
+                                        <div class="col-md">
+                                            <label class="form-label">Quantidade</label>
+                                            <input class="form-control" type="number" placeholder="Digite a quantidade" wire:model="quantidade" id="quantidade">
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Valor Sugestão</label>
@@ -52,7 +63,7 @@
                             </div>
                         </form>
 
-                        <!-- Tabela para visualizar os itens cadastrados -->
+
                         @if (!empty($itens))
                             <h4 class="mt-5 text-center">Itens Cadastrados</h4>
                             <div style="overflow: auto; height: 300px;">
@@ -60,20 +71,24 @@
                                     <thead>
                                     <tr class="text-uppercase text-center">
                                         <th>Código</th>
+                                        <th>Filial</th>
                                         <th>Nome</th>
                                         <th>Quantidade</th>
+                                        <th>Unid</th>
                                         <th>Valor</th>
                                         <th>Valor Sugestão</th>
                                         <th>Data de Vencimento</th>
-                                        <th>Ações</th> <!-- Nova coluna para ações -->
+                                        <th>Ações</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach ($itens as $index => $item)
                                         <tr class="text-uppercase text-center align-middle">
                                             <td>{{ $item['codigo'] }}</td>
+                                            <td>{{ $item['filial'] }}</td>
                                             <td>{{ $item['nome'] }}</td>
                                             <td>{{ $item['quantidade'] }}</td>
+                                            <td>{{ $item['unid'] }}</td>
                                             <td>{{ $item['valor'] }}</td>
                                             <td>{{ $item['valor_sugestao'] }}</td>
                                             <td>{{ $item['data'] }}</td>
