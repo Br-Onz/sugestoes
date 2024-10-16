@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './dataTables.dataTables.min.css';
+@import './main.css';
 
 .swal2-title{
     text-align: center !important;
@@ -11,4 +13,17 @@
 
 .swal2-popup.swal2-toast .swal2-styled {
     width: 70px !important;
+}
+
+.truncate {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (min-width: 1200px) {
+    .modal-xl {
+        --bs-modal-width: 1340px !important;
+    }
 }
