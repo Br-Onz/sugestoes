@@ -6,6 +6,7 @@ use App\Models\Pclib;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use mysql_xdevapi\Exception;
 
 
 class Home extends Component
@@ -28,7 +29,6 @@ class Home extends Component
     {
         $pclib = Pclib::where('codfunc', auth()->user()->matricula)->
         where('codtabela', 1)->get();
-       /* $this->pclib_fil = $pclib;*/
     }
 
     public function buscar()
@@ -43,8 +43,16 @@ class Home extends Component
 
     public function buscarProduto($codigo)
     {
-        $produtos = DB::select(
-            "SELECT e.codauxiliar,
+        try {
+            foreach ($this->itens as $item) {
+                if ($item['codigo'] == $codigo) {
+                    $this->toast('info', 'Produto já adicionado!');
+                    return;
+                }
+            }
+
+            $produtos = DB::select(
+                "SELECT e.codauxiliar,
                      p.descricao,
                      e.ptabela,
                      e.pvenda,
@@ -55,13 +63,24 @@ class Home extends Component
                          ON e.codprod = p.codprod
                  WHERE   e.codauxiliar = ? and e.codfilial = ?
                  AND NVL (e.pvenda, 0) > 0",
-            [$codigo, auth()->user()->codfilial]
-        );
+                [$codigo, auth()->user()->codfilial]
+            );
 
-        $this->nome = $produtos[0]->descricao;
-        $this->valor = 'R$ '.number_format($produtos[0]->pvenda, 2, ',', '.');
-        $this->adicionarItem();
+            if (empty($produtos)) {
+                $this->toast('error', 'Produto não encontrado!');
+                return;
+            }
+
+            $this->nome = $produtos[0]->descricao;
+            $this->valor = 'R$ ' . number_format($produtos[0]->pvenda, 2, ',', '.');
+            $this->adicionarItem();
+
+        } catch (Exception $e) {
+            $this->toast('error', 'Erro ao buscar o produto!');
+            return;
+        }
     }
+
 
     public function adicionarItem()
     {
