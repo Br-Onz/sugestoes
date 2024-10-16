@@ -59,6 +59,13 @@
 </main>
 @fluxScripts
 <x-livewire-alert::scripts />
+<script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('nome-preenchido', () => {
+            document.getElementById('quantidade').focus();
+        });
+    });
+</script>
 </body>
 </html>
 
