@@ -29,11 +29,26 @@
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Código do Produto</label>
-                                            <input class="form-control" type="number" placeholder="Digite o código" wire:model="codigo" >
+                                            <input
+                                                class="form-control"
+                                                type="number"
+                                                placeholder="Digite o código"
+                                                wire:model="codigo"
+                                                id="codigo"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Nome do Produto</label>
-                                            <input class="form-control" type="text" readonly placeholder="Nome do produto será preenchido" value="@if($nome) {{ $nome }} | {{$unid}}  @endif" id="nome_produto">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                readonly
+                                                placeholder="Nome do produto será preenchido"
+                                                value="@if($nome) {{ $nome }} | {{$unid}}  @endif"
+                                                id="nome_produto"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -41,24 +56,56 @@
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="form-label">Valor Produto</label>
-                                            <input class="form-control" type="text" placeholder="Valor do produto" readonly value="{{ $valor }}" id="valor_produto">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                placeholder="Valor do produto"
+                                                readonly
+                                                value="{{ $valor }}"
+                                                id="valor_produto"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Quantidade</label>
-                                            <input class="form-control" type="number" placeholder="Digite a quantidade" wire:model="quantidade" id="quantidade">
+                                            <input
+                                                class="form-control"
+                                                type="number"
+                                                placeholder="Digite a quantidade"
+                                                wire:model="quantidade"
+                                                id="quantidade"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Valor Sugestão</label>
-                                            <input class="form-control" type="text" placeholder="Digite o valor sugerido" wire:model="valor_sugestao" id="valor_sugestao" oninput="formatarMoeda(this)">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                placeholder="Digite o valor sugerido"
+                                                wire:model="valor_sugestao"
+                                                id="valor_sugestao"
+                                                oninput="formatarMoeda(this)"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                         <div class="col-md">
                                             <label class="form-label">Data de Vencimento</label>
-                                            <input class="form-control" type="date" wire:model="data">
+                                            <input
+                                                class="form-control"
+                                                type="date"
+                                                wire:model="data"
+                                                autocomplete="off"
+                                            >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 text-center mt-3">
-                                    <input class="btn btn-primary" type="submit" value="Adicionar">
+                                    <input
+                                        class="btn btn-primary"
+                                        type="submit"
+                                        value="Adicionar"
+                                    >
                                 </div>
                             </div>
                         </form>

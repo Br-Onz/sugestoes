@@ -18,6 +18,7 @@ class Solicitados extends Component
     public $data_vencimento;
     public $valor_sugerido;
     public $nome;
+    public $filial;
     public $data_criacao;
 
 
@@ -70,6 +71,7 @@ class Solicitados extends Component
             );
             $this->itensi = $produtos;
             $this->nome = $produtos[0]->nome;
+            $this->filial = $produtos[0]->codfilial;
             $this->data_criacao = $produtos[0]->data;
             $this->dispatch('ModalTableAvaliar');
         } catch (\Exception $e) {

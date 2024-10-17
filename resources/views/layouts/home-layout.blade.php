@@ -63,6 +63,10 @@
             document.getElementById('quantidade').focus();
         });
 
+        Livewire.on('NovoItem', () => {
+            document.getElementById('codigo').focus();
+        });
+
         Livewire.on('ModalTableAvaliar', () => {
             $('#ModalTableAvaliar').modal('show');
         });
