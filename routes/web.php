@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Home;
-
-
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', Home::class)->name('home');
+    Route::get('/home', App\Livewire\Home::class)->name('home');
+    Route::get('/avaliar', App\Livewire\Avaliar::class)->name('avaliar');
+    Route::get('/solicitados', App\Livewire\Solicitados::class)->name('solicitados');
 });
 
 

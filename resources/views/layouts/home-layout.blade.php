@@ -9,8 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @vite(['resources/css/main.css', 'resources/css/app.css'])
-    @fluxStyles
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="app sidebar-mini " x-data="{ open: true }" :class="open ? '' : 'sidenav-toggled' ">
 <!-- Navbar-->
@@ -41,11 +40,11 @@
         @foreach(auth()->user()->pccontroi as $Pccontroi)
             @if($Pccontroi->codrotina == 1444)
                 @if($Pccontroi->codcontrole == 1 && $Pccontroi->acesso =='S')
-                    <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-card-text"></i><span class="app-menu__label">Sugestão</span></a></li>
-                    <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-check2"></i><span class="app-menu__label">Solicitados</span></a></li>
+                    <li><a class="app-menu__item some_no_mobile" href="/home"><i class="app-menu__icon bi bi-card-text"></i><span class="app-menu__label">Sugestão</span></a></li>
+                    <li><a class="app-menu__item some_no_mobile" href="/solicitados"><i class="app-menu__icon bi bi-android"></i><span class="app-menu__label">Solicitados</span></a></li>
                 @endif
                 @if($Pccontroi->codcontrole == 2 && $Pccontroi->acesso =='S')
-                    <li><a class="app-menu__item some_no_mobile" window.location.reload() href="/home"><i class="app-menu__icon bi bi-graph-up-arrow"></i><span class="app-menu__label">Avaliar</span></a></li>
+                    <li><a class="app-menu__item some_no_mobile" href="/avaliar"><i class="app-menu__icon bi bi-graph-up-arrow"></i><span class="app-menu__label">Avaliar</span></a></li>
                 @endif
             @endif
         @endforeach
@@ -57,14 +56,63 @@
         {{ $slot }}
     </div>
 </main>
-@fluxScripts
 <x-livewire-alert::scripts />
 <script>
     document.addEventListener('livewire:init', () => {
         Livewire.on('nome-preenchido', () => {
             document.getElementById('quantidade').focus();
         });
+
+        Livewire.on('ModalTableAvaliar', () => {
+            $('#ModalTableAvaliar').modal('show');
+        });
+
+        Livewire.on('ModalOptions', () => {
+            $('#ModalTableAvaliarOptions').modal('show');
+        });
+
+        Livewire.on('ModalTableAvaliar227', () => {
+            $('#ModalTableAvaliar227').modal('show');
+        });
+
+        Livewire.on('ModalEditItem', () => {
+            $('#ModalEditItem').modal('show');
+        });
+
+        Livewire.on('closeModalEditItem', () => {
+            $('#ModalEditItem').modal('hide');
+        });
+
     });
+
+    function formatarMoeda(input) {
+        // Remove qualquer caractere que não seja um número
+        let valor = input.value.replace(/\D/g, '');
+
+        // Formata o valor como moeda brasileira
+        valor = (valor / 100).toFixed(2).replace('.', ',');
+
+        // Adiciona o símbolo da moeda
+        input.value = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.') || 'R$ 0,00';
+        if (valor) {
+            input.value = 'R$ ' + input.value;
+        }
+    }
+
+    /*function expandCell(cell) {
+        cell.style.whiteSpace = 'normal';
+        cell.style.maxWidth = 'none';
+        cell.colSpan = 2;
+        cell.nextElementSibling.style.display = 'none';
+    }
+
+    function shrinkCell(cell) {
+        cell.style.whiteSpace = 'nowrap';
+        cell.style.maxWidth = '200px';
+        cell.colSpan = 1;
+        cell.nextElementSibling.style.display = '';
+    }*/
+
 </script>
 </body>
 </html>

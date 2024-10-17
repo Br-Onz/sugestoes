@@ -110,19 +110,4 @@
             </div>
         </div>
     </div>
-    <script>
-        function formatarMoeda(input) {
-            // Remove qualquer caractere que não seja um número
-            let valor = input.value.replace(/\D/g, '');
-
-            // Formata o valor como moeda brasileira
-            valor = (valor / 100).toFixed(2).replace('.', ',');
-
-            // Adiciona o símbolo da moeda
-            input.value = valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.') || 'R$ 0,00';
-            if (valor) {
-                input.value = 'R$ ' + input.value;
-            }
-        }
-    </script>
 </div>
