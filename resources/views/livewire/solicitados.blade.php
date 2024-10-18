@@ -49,6 +49,7 @@
                 <div class="modal-body">
                     <div>
                         <h6 class="modal-title" id="exampleModalLabel"><i class="bi bi-person-circle"></i> {{ $nome }}</h6>
+                        <h6 class="modal-title" id="exampleModalLabel"><i class="bi bi-house-gear-fill"></i> FILIAL: {{ $filial }}</h6>
                         <h6 class="modal-title" id="exampleModalLabel"><i class="bi bi-calendar4-event"></i> {{ $data_criacao }} </h6>
                     </div>
                     <table class="table table-bordered table-hover table-dark mt-3">
@@ -61,7 +62,6 @@
                             <th>VALOR PRODUTO</th>
                             <th>VALOR SUGERIDO</th>
                             <th>QUANTIDADE</th>
-                            <th>CODFILIAL</th>
                             <th>DATA VENCIMENTO</th>
                             <th>STATUS</th>
                         </tr>
@@ -82,12 +82,11 @@
                                 <td>{{ $item->valor_produto }}</td>
                                 <td>{{ $this->formatMoeda($item->valor_sugerido) }}</td>
                                 <td>{{ $item->quantidade }}</td>
-                                <td>{{ $item->codfilial }}</td>
                                 <td>{{ $item->data_vencimento }}</td>
                                 <td>
-                                                        <span class="{{ $item->status == '0' ? 'badge bg-primary' : 'badge bg-danger' }}">
-                                                            {{ $item->status == '0' ? 'ATIVO' : 'LANÇADO' }}
-                                                        </span>
+                                    <span class="{{ $item->status == '0' ? 'badge bg-primary' : 'badge bg-danger' }}">
+                                         {{ $item->status == '0' ? 'ATIVO' : 'LANÇADO' }}
+                                    </span>
                                 </td>
                             </tr>
                         @endforeach

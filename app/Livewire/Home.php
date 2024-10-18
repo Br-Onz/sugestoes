@@ -95,7 +95,7 @@ class Home extends Component
             $this->nome = $produtos[0]->descricao;
             $this->valor = 'R$ ' . number_format($produtos[0]->pvenda, 2, ',', '.');
             $this->unid = $produtos[0]->unidade;
-            $this->dispatch('nome-preenchido');
+            $this->dispatch('nome-preenchido'); // Dispara um evento para focar no campo de quantidade
             $this->adicionarItem();
             $this->edit = false;
 
@@ -104,7 +104,6 @@ class Home extends Component
             return;
         }
     }
-
 
     public function adicionarItem()
     {
@@ -144,8 +143,8 @@ class Home extends Component
             $this->indexEditando = null;
         }
 
-        // Limpa os campos do formulário
-        $this->reset(['codigo', 'nome', 'quantidade', 'valor', 'valor_sugestao', 'data']);
+        $this->reset(['codigo', 'nome', 'quantidade', 'valor', 'valor_sugestao', 'data']); // Limpa os campos do formulário
+        $this->dispatch('NovoItem'); // Dispara um evento para focar no campo de código
     }
 
     public function editarItem($index)
