@@ -34,67 +34,6 @@ class Avaliar extends Component
                      WHERE   p.matricula = c.codusuario order by c.codsug desc"
         );
         $this->itensc = $itens;
-
-
-        DB::beginTransaction();
-
-        $dt_inicial = '01/10/2024';
-        $dt_final = '18/10/2024';
-        $dtinicio = $dt_inicial;
-        $dtfim =  $dt_final;
-        $filialcod = 9;
-        $prodcod = 6459;
-
-        try {
-            $finalResult = [];
-            $query = "
-                    BEGIN
-                        :cursor := bdc_f_sugestoes(
-                            :dtinicio,
-                            :dtfim,
-                            :filialcod,
-                            :prodcod
-                        );
-                    END;
-                ";
-            $pdo = DB::getPdo();
-            $stmt = $pdo->prepare($query);
-
-            $stmt->bindParam(':cursor', $cursor, PDO::PARAM_STMT);
-            $stmt->bindParam(':dtinicio', $dtinicio);
-            $stmt->bindParam(':dtfim', $dtfim);
-            $stmt->bindParam(':filialcod', $filialcod, PDO::PARAM_INT);
-            $stmt->bindParam(':prodcod', $prodcod, PDO::PARAM_INT);
-
-            // Executar a consulta
-            $stmt->execute();
-
-            // Verificar se o cursor foi retornado
-            if ($cursor) {
-                // Executar o cursor para obter os resultados
-                oci_execute($cursor);
-
-                while ($row = oci_fetch_assoc($cursor)) {
-                    $finalResult[] = $row; // Coletar resultados em array
-                }
-                // Liberar o cursor
-                oci_free_statement($cursor);
-
-                // Exibir os resultados para debug
-
-                $this->dados_cursor = $finalResult;
-                $this->dispatch('ModalTableAvaliar227');
-            } else {
-                dd("Nenhum cursor foi retornado.");
-            }
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
     }
 
     public function modalOpen($index)
