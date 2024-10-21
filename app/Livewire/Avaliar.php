@@ -22,8 +22,14 @@ class Avaliar extends Component
     public $data_criacao;
     public $dados_cursor = [];
 
+    public $status;
+    protected $listeners = ['confirmar'];
+
+
+
     public function mount()
     {
+
         $itens = DB::select(
             "SELECT  distinct c.codsug,
                              p.nome,
@@ -34,6 +40,10 @@ class Avaliar extends Component
                      WHERE   p.matricula = c.codusuario order by c.codsug desc"
         );
         $this->itensc = $itens;
+
+
+
+
     }
 
     public function modalOpen($index)
@@ -71,6 +81,8 @@ class Avaliar extends Component
             $this->itensi = $produtos;
             $this->nome = $produtos[0]->nome;
             $this->filial = $produtos[0]->codfilial;
+
+           // dd($produtos[0]->codfilial);
             $this->data_criacao = $produtos[0]->data;
             $this->dispatch('ModalTableAvaliar');
         } catch (\Exception $e) {
@@ -84,6 +96,73 @@ class Avaliar extends Component
         $this->codauxiliar_master = $codauxiliar;
         $this->codfilial = $codfilial;
         $this->dispatch('ModalOptions');
+    }
+
+    public function StatusItem($CodSugItem,$Codsug,$CodStatus)
+    {
+
+        $this->alert('warning', 'Você tem certeza?', [
+            'toast' => true,
+            'timer' => 50000,
+            'position' => 'center',
+            'timerProgressBar' => true,
+            'showCancelButton' => true,
+            'showConfirmButton' => true,
+            'onCancel' => 'cancelDeletion',
+            'onConfirmed' => 'confirmar',
+            'data' => ['CodSugItem' => $CodSugItem,'Codsug' => $Codsug,'CodStatus' => $CodStatus]
+        ]);
+
+    }
+    public function confirmar($data)
+    {
+
+        try {
+            if ($data['CodStatus']==1){
+                DB::update("UPDATE BDC_SUGESTOESI@DBL200 SET STATUS = 1 WHERE CODSUGITEM = ?", [$data['CodSugItem']]);
+            }
+            if ($data['CodStatus']==2){
+                DB::update("UPDATE BDC_SUGESTOESI@DBL200 SET STATUS = 2 WHERE CODSUGITEM = ?", [$data['CodSugItem']]);
+            }
+            $this->toast('success', 'Confirmado com Sucesso!');
+            $this->modalOpen($data['Codsug']);
+
+        }catch (\Exception $e) {
+            $this->toast('error', 'Erro ao Alterar Status!');
+        }
+
+    }
+
+    public function getStatusBadge($status)
+    {
+        $badgeClass = match ($status) {
+            '0' => 'badge bg-secondary',
+            '1' => 'badge bg-primary',
+            '2' => 'badge bg-danger',
+            default => 'badge bg-light',
+        };
+
+        $statusText = match ($status) {
+            '0' => 'AGUARDANDO',
+            '1' => 'CONFIRMADO',
+            '2' => 'REJEITADO',
+            default => 'INDEFINIDO',
+        };
+
+        return [
+            'class' => $badgeClass,
+            'text' => $statusText,
+        ];
+    }
+
+    public function getStyleTable($status)
+    {
+        return match ($status) {
+            '0' => 'table-warning',
+            '1' => 'table-primary',
+            '2' => 'table-danger',
+            default => '',
+        };
     }
 
     public function buscarProdutoRotina()
@@ -191,6 +270,7 @@ class Avaliar extends Component
     {
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
+
 
     public function render()
     {

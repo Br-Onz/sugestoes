@@ -62,14 +62,15 @@
                             <th>QUANTIDADE</th>
                             <th>DATA VENCIMENTO</th>
                             <th>STATUS</th>
+                            <th>Ações</th>
                         </tr>
                         </thead>
                         <tbody>
+
                         @foreach ($itensi as $index => $item)
-                            <tr class="text-uppercase text-center align-middle cursor-pointer {{ $item->status == '0' ? 'table-primary' : 'table-danger' }}"
-                                wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})"
-                            >
-                                <td>{{ $item->codsugitem }}</td>
+
+                            <tr class="text-uppercase text-center align-middle cursor-pointer {{ isset($item->status) ? $this->getStyleTable($item->status) : '' }}">
+                            <td>{{ $item->codsugitem }}</td>
                                 <td class="truncate" title="{{ $item->descricao }} | {{ $item->unid }}" onmouseover="expandCell(this)" onmouseout="shrinkCell(this)">
                                     <div style="width: 100%; overflow: auto;">
                                         {{ $item->descricao }} | {{ $item->unid }}
@@ -80,16 +81,31 @@
                                 <td>{{ $item->quantidade }}</td>
                                 <td>{{ $item->data_vencimento }}</td>
                                 <td>
-                                    <span class="{{ $item->status == '0' ? 'badge bg-primary' : 'badge bg-danger' }}">
-                                       {{ $item->status == '0' ? 'ATIVO' : 'LANÇADO' }}
+                                    @php
+                                        $statusInfo = $this->getStatusBadge($item->status);
+                                    @endphp
+                                    <span class="{{ $statusInfo['class'] }}">{{ $statusInfo['text'] }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-danger" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
+                                        Rejeitar
+                                    </span>
+                                    <span class="badge bg-success" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
+                                        Aceitar
+                                    </span>
+                                    <span class="badge bg-secondary" wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})">
+                                        Analisar
                                     </span>
                                 </td>
                             </tr>
                         @endforeach
+
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+
+                    <a href="{{ route('visualizar-pdf',['itensc' =>$item->codsug]) }}" class="btn btn-secondary" target="_blank">Imprimir</a>
+                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</a>
                 </div>
             </div>
         </div>
@@ -168,7 +184,7 @@
                         @endif
                     </div>
                     <div class="flex justify-between gap-3">
-                        <table class="table table-bordered table-hover table-dark mt-3">
+                        <table class="table table-bordered table-hover  mt-3">
                             <thead>
                             <tr class="text-uppercase text-center">
                                 <th style="width: 23%">
