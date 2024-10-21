@@ -145,23 +145,27 @@
                 </div>
                 <div class="modal-body">
                     <div class="col-md-12">
-                        <div class="row font-bold mb-2">
-                            <div class="col-md-4">
-                                <p class="modal-title" id="exampleModalLabel">FORNECEDOR: {{ $dados_cursor[0]['CODFORNEC'] }} - {{ $dados_cursor[0]['FORNECEDOR'] }}</p>
-                                <p class="modal-title" id="exampleModalLabel">CONTATO: {{ $dados_cursor[0]['TELFAB'] }}</p>
-                            </div>
-                            <div class="col-md">
-                                <p class="modal-title" id="exampleModalLabel">PRAZO DE ENTREGA: {{ $dados_cursor[0]['PRAZOENTREGA'] }} DIAS</p>
-                                <p class="modal-title" id="exampleModalLabel">ULT.RFENTE: {{ $dados_cursor[0]['FRETE'] }} </p>
-                            </div>
-                            <div class="col-md">
-                                <p class="modal-title" id="exampleModalLabel">% DESP FIN: {{ $dados_cursor[0]['PERCDESPFIN'] }}</p>
-                                <p class="modal-title" id="exampleModalLabel">PRAZO PAGAMENTO: {{ $dados_cursor[0]['DESCPARCELA'] }}</p>
-                            </div>
-                            <div class="col-md">
-                                <p class="modal-title" id="exampleModalLabel">% DESP FIN: {{ $dados_cursor[0]['PERCDESCFIN'] }}</p>
-                            </div>
-                        </div>
+                        @if(isset($dados_cursor))
+                            @foreach ($dados_cursor as $index => $item)
+                                <div class="row font-bold mb-2">
+                                    <div class="col-md-4">
+                                        <p class="modal-title" id="exampleModalLabel">FORNECEDOR: {{ $item['CODFORNEC'] }} - {{ $item['FORNECEDOR'] }}</p>
+                                        <p class="modal-title" id="exampleModalLabel">CONTATO: {{ $item['TELFAB'] }}</p>
+                                    </div>
+                                    <div class="col-md">
+                                        <p class="modal-title" id="exampleModalLabel">PRAZO DE ENTREGA: {{ $item['PRAZOENTREGA'] }} DIAS</p>
+                                        <p class="modal-title" id="exampleModalLabel">ULT.RFENTE: {{ $item['FRETE'] }} </p>
+                                    </div>
+                                    <div class="col-md">
+                                        <p class="modal-title" id="exampleModalLabel">% DESP FIN: {{ $item['PERCDESPFIN'] }}</p>
+                                        <p class="modal-title" id="exampleModalLabel">PRAZO PAGAMENTO: {{ $item['DESCPARCELA'] }}</p>
+                                    </div>
+                                    <div class="col-md">
+                                        <p class="modal-title" id="exampleModalLabel">% DESP FIN: {{ $item['PERCDESCFIN'] }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                     <div class="flex justify-between gap-3">
                         <table class="table table-bordered table-hover table-dark mt-3">
@@ -373,19 +377,23 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row font-bold">
-                                <div class="col-md-12 pb-2 flex gap-5 text-left">
-                                    <span>FONECEDOR BLOQUEADO: {{ $dados_cursor[0]['BLOQUEIO'] }}</span>
-                                    <span>DATA BLOQUEIO: {{ $dados_cursor[0]['DTBLOQUEIO'] }}</span>
-                                </div>
-                                <div class="col-md-12 pb-4 gap-5 text-left">
-                                    <span>OBSERVACAO: {{ $dados_cursor[0]['OBSERVACAO'] }}</span>
+                    @if(isset($dados_cursor))
+                        @foreach ($dados_cursor as $index => $item)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row font-bold">
+                                        <div class="col-md-12 pb-2 flex gap-5 text-left">
+                                            <span>FONECEDOR BLOQUEADO: {{ $item['BLOQUEIO'] }}</span>
+                                            <span>DATA BLOQUEIO: {{ $item['DTBLOQUEIO'] }}</span>
+                                        </div>
+                                        <div class="col-md-12 pb-4 gap-5 text-left">
+                                            <span>OBSERVACAO: {{ $item['OBSERVACAO'] }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        @endforeach
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
