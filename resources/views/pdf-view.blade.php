@@ -117,7 +117,7 @@
         </div>
         <div>
             <i class="fa-solid fa-building icon"></i>
-            <span>Filial: {{$itensc[0]->codfilial}}</span>
+            <span>Filial: {{$itensc['itensi'][0]->codfilial}}</span>
         </div>
         <div>
             <i class="fa-solid fa-calendar-days icon"></i>
@@ -134,7 +134,6 @@
             <th>NOME</th>
             <th>UNIDADE</th>
             <th>PVENDA</th>
-            <th>POFERTA</th>
             <th>VALOR SUGERIDO</th>
             <th>DATA VENCIMENTO</th>
             <th>QUANTIDADE</th>
@@ -150,13 +149,10 @@
                 <td>{{$itensi->codauxiliar}}</td>
                 <td>{{$itensi->descricao}}</td>
                 <td>{{$itensi->unidade}}</td>
+
                 <td class="td-valor">
                     <span class="simbolo">R$</span>
-                    <span class="valor">{{number_format($itensi->pvenda, 2, ',', '.')}}</span>
-                </td>
-                <td class="td-valor">
-                    <span class="simbolo">R$</span>
-                    <span class="valor">{{number_format($itensi->poferta, 2, ',', '.')}}</span>
+                    <span class="valor">{{number_format($itensi->preco, 2, ',', '.')}}</span>
                 </td>
                 <td class="td-valor">
                     <span class="simbolo">R$</span>
