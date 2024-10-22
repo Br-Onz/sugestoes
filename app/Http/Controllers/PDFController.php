@@ -28,20 +28,14 @@ class PDFController extends Controller
 
         $codsug = $request->get('itensc');
 
-        $header = DB::select("SELECT C.CODSUG,
-                                           P.NOME,
-                                           C.DATA,
-                                           C.CODFILIAL
+        $header = DB::select("SELECT *
                                     FROM BDC_SUGESTOESC@DBL200 C, PCEMPR P
                                     WHERE C.CODUSUARIO = P.MATRICULA AND C.CODSUG = ?",[$codsug] );
 
 
         $itensc=$header;
 
-            $itensi = DB::select("SELECT I.CODSUGITEM, I.CODSUG,i.codauxiliar,
-                                           I.DESCRICAO, E.CODPROD,
-                                           I.QUANTIDADE, trunc(I.DATA_VENCIMENTO) data_vencimento,
-                                           I.STATUS
+            $itensi = DB::select("SELECT *
                                     FROM BDC_SUGESTOESI@DBL200 I, BDC_SUGESTOESC@DBL200 C, PCEMBALAGEM E
                                     WHERE C.CODSUG = I.CODSUG
                                       AND E.CODAUXILIAR = I.CODAUXILIAR
@@ -50,14 +44,14 @@ class PDFController extends Controller
         $itensc['itensi'] = $itensi;
         $itensc['pcempr'] = auth()->user();
 
-        dd($itensc);
+
         $dados = [
             'titulo' => 'Relatório de Vendas',
             'conteudo' => 'Conteúdo do relatório de vendas...',
             'itensc' => $itensc,
         ];
 
-        $pdf = Pdf::loadView('pdf-view', $dados);
+        $pdf = Pdf::loadView('pdf-view', $dados)->setPaper('a4', 'landscape');
 
 
         return $pdf->stream('relatorio.pdf');

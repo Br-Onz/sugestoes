@@ -15,6 +15,17 @@
             padding: 20px;
             font-size: 12px;
         }
+        .topo-direito {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .conteudo {
+            margin-top: 40px; /* Ajuste de margem para não sobrepor o texto do topo */
+            text-align: center;
+        }
         .container {
             width: 100%;
             margin: auto;
@@ -54,10 +65,31 @@
         .table td {
             background-color: #f7f7f7;
         }
+        .assinatura {
+            position: absolute;
+            bottom: 50px; /* Ajuste da posição do campo de assinatura */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .linha-assinatura {
+            margin-top: 20px;
+            width: 300px;
+            border-top: 1px solid #000;
+        }
     </style>
 </head>
 <body>
+<!-- Texto no topo direito -->
+<div class="topo-direito">
+    <strong>{{$itensc['pcempr']->usuariobd}} | {{$itensc['pcempr']->matricula}}</strong>
+</div>
 
+<!-- Conteúdo do PDF -->
+<div class="conteudo">
+    <h1>Sugetão Preço</h1>
+    <p></p>
+</div>
 <div class="container">
 
 
@@ -65,15 +97,15 @@
 
         <div>
             <i class="fa-solid fa-user icon"></i>
-            <span>{{$itensc[0]->nome}}</span>
+            <span>Nome: {{$itensc[0]->nome_guerra}} | {{$itensc[0]->matricula}}</span>
         </div>
         <div>
             <i class="fa-solid fa-building icon"></i>
-            <span>{{$itensc[0]->codfilial}}</span>
+            <span>Filial: {{$itensc[0]->codfilial}}</span>
         </div>
         <div>
             <i class="fa-solid fa-calendar-days icon"></i>
-            <span>{{$itensc[0]->data}}</span>
+            <span>Data da Solicitação: {{\Carbon\Carbon::parse($itensc[0]->data)->format('d/m/Y')}}</span>
         </div>
     </div>
 
@@ -81,33 +113,41 @@
     <table class="table">
         <thead>
         <tr>
-            <th>CODSUGITEM</th>
-            <th>NOME</th>
             <th>CODPROD</th>
             <th>CODAUXILIAR</th>
-            <th>QUANTIDADE</th>
+            <th>NOME</th>
+            <th>UNIDADE</th>
+            <th>PVENDA</th>
+            <th>POFERTA</th>
+            <th>VALOR SUGERIDO</th>
             <th>DATA VENCIMENTO</th>
-            <th>STATUS</th>
+            <th>QUANTIDADE</th>
+
         </tr>
         </thead>
         <tbody>
 
         @foreach($itensc['itensi'] as $itensi)
-        <tr>
+            <tr>
 
-                <td>{{$itensi->codsugitem}}</td>
-                <td>{{$itensi->descricao}}</td>
                 <td>{{$itensi->codprod}}</td>
                 <td>{{$itensi->codauxiliar}}</td>
+                <td>{{$itensi->descricao}}</td>
+                <td>{{$itensi->unidade}}</td>
+                <td>{{$itensi->pvenda}}</td>
+                <td>{{$itensi->poferta}}</td>
+                <td>{{$itensi->valor_sugerido}}</td>
+                <td>{{\Carbon\Carbon::parse($itensi->data_vencimento)->format('d/m/Y') }}</td>
                 <td>{{$itensi->quantidade}}</td>
-                <td>{{$itensi->data_vencimento}}</td>
-                <td>{{$itensi->status}}</td>
 
-        </tr>
+            </tr>
         @endforeach
         </tbody>
     </table>
-
+    <div class="assinatura">
+        <div class="linha-assinatura"></div>
+        <p>Assinatura</p>
+    </div>
 </div>
 
 </body>
