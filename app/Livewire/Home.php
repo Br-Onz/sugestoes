@@ -72,9 +72,11 @@ class Home extends Component
 
             $produtos = DB::select(
                 "SELECT e.codauxiliar,
-                     p.descricao,
-                     e.ptabela,
-                     e.pvenda,
+                        p.descricao,
+                        e.ptabela,
+                        (select SUBSTR (buscaprecos($this->codfilial,1,$codigo,SYSDATE ), 1,
+                        INSTR (buscaprecos($this->codfilial,1,$codigo,SYSDATE ), ';', 1) - 1)
+                        from dual) pvenda,
                      e.codfilial,
                      e.unidade
                   FROM       pcembalagem e
