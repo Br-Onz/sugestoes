@@ -95,7 +95,6 @@
         @foreach($itensc['itensi'] as $itensi)
         <tr>
 
-
                 <td>{{$itensi->codsugitem}}</td>
                 <td>{{$itensi->descricao}}</td>
                 <td>{{$itensi->codprod}}</td>
@@ -103,7 +102,6 @@
                 <td>{{$itensi->quantidade}}</td>
                 <td>{{$itensi->data_vencimento}}</td>
                 <td>{{$itensi->status}}</td>
-
 
         </tr>
         @endforeach
