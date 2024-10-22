@@ -162,7 +162,7 @@
                     <span class="simbolo">R$</span>
                     <span class="valor">{{number_format($itensi->valor_sugerido, 2, ',', '.')}}</span>
                 </td>
-                 <td>{{\Carbon\Carbon::parse($itensi->data_vencimento)->format('d/m/Y') }}</td>
+                <td>{{\Carbon\Carbon::parse($itensi->data_vencimento)->format('d/m/Y') }}</td>
                 <td>{{$itensi->quantidade}}</td>
 
             </tr>
