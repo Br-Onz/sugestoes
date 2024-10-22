@@ -60,7 +60,6 @@
                             <th>CODPROD</th>
                             <th>CODAUXILIAR</th>
                             <th>VALOR PRODUTO</th>
-                            <th>VALOR SUGERIDO</th>
                             <th>QUANTIDADE</th>
                             <th>DATA VENCIMENTO</th>
                             <th>STATUS</th>
@@ -69,7 +68,7 @@
                         <tbody>
                         @foreach ($itensi as $index => $item)
                             <tr class="text-uppercase text-center align-middle cursor-pointer {{ $item->status == '0' ? 'table-primary' : 'table-danger' }}"
-                                @if($item->status == '0') wire:click="editItem({{ $item->codsug }}, {{ $item->codsugitem }}, {{ $item->quantidade }}, {{ $item->valor_sugerido }}, '{{ $item->data_vencimento }}' )" @endif
+                                @if($item->status == '0') wire:click="editItem({{ $item->codsug }}, {{ $item->codsugitem }}, {{ $item->quantidade }}, '{{ $item->data_vencimento }}' )" @endif
                             >
                                 <td>{{ $item->codsugitem }}</td>
                                 <td class="truncate" title="{{ $item->descricao }} | {{ $item->unid }}">
@@ -80,7 +79,6 @@
                                 <td>{{ $item->codprod }}</td>
                                 <td>{{ $item->codauxiliar }}</td>
                                 <td>{{ $item->valor_produto }}</td>
-                                <td>{{ $this->formatMoeda($item->valor_sugerido) }}</td>
                                 <td>{{ $item->quantidade }}</td>
                                 <td>{{ $item->data_vencimento }}</td>
                                 <td>
@@ -110,14 +108,10 @@
                 <div class="modal-body text-center">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="row mb-4">
+                            <div class="row mb-4 flex justify-content-center">
                                 <div class="col-md-4">
                                     <label for="quantidade">Quantidade</label>
                                     <input type="number" class="form-control" id="quantidade" wire:model="quantidade" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="valor_sugerido">Valor Sugerido</label>
-                                    <input type="text" class="form-control" id="valor_sugerido" wire:model="valor_sugerido" required oninput="formatarMoeda(this)">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="data_vencimento">Data Vencimento</label>

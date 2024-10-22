@@ -17,7 +17,6 @@ class Home extends Component
     public $codigo;
     public $nome;
     public $valor;
-    public $valor_sugestao;
     public $quantidade;
     public $data;
     public $itens = [];
@@ -113,7 +112,6 @@ class Home extends Component
             'nome' => 'required',
             'quantidade' => 'required|numeric',
             'valor' => 'required',
-            'valor_sugestao' => 'required',
             'data' => 'required|date',
         ]);
 
@@ -124,7 +122,6 @@ class Home extends Component
                 'nome' => $this->nome,
                 'quantidade' => $this->quantidade,
                 'valor' => $this->valor,
-                'valor_sugestao' => $this->valor_sugestao,
                 'data' => date_format(date_create($this->data), 'd/m/Y'),
                 'unid' => $this->unid
             ];
@@ -136,14 +133,13 @@ class Home extends Component
                 'nome' => $this->nome,
                 'quantidade' => $this->quantidade,
                 'valor' => $this->valor,
-                'valor_sugestao' => $this->valor_sugestao,
                 'data' => date_format(date_create($this->data), 'd/m/Y'),
                 'unid' => $this->unid
             ];
             $this->indexEditando = null;
         }
 
-        $this->reset(['codigo', 'nome', 'quantidade', 'valor', 'valor_sugestao', 'data']); // Limpa os campos do formulário
+        $this->reset(['codigo', 'nome', 'quantidade', 'valor', 'data']); // Limpa os campos do formulário
         $this->dispatch('NovoItem'); // Dispara um evento para focar no campo de código
     }
 
@@ -156,7 +152,6 @@ class Home extends Component
         $this->nome = $item['nome'];
         $this->quantidade = $item['quantidade'];
         $this->valor = $item['valor'];
-        $this->valor_sugestao = $item['valor_sugestao'];
         $this->data = date('Y-m-d', strtotime(str_replace('/', '-', $item['data'])));
         $this->codfilial = $item['filial'];
         $this->indexEditando = $index;
@@ -206,19 +201,17 @@ class Home extends Component
             foreach ($this->itens as $item) {
 
                 $valor_produto = str_replace(['R$ ', '.', ','], ['', '', '.'], $item['valor']);
-                $valor_sugestao = str_replace(['R$ ', '.', ','], ['', '', '.'], $item['valor_sugestao']);
 
                 $data_vencimento = date('d/m/Y', strtotime($item['data']));
 
                 DB::insert('INSERT INTO bdc_sugestoesi@dbl200
-                    (codsugitem, codsug, codauxiliar, descricao,  valor_produto, valor_sugerido, data_vencimento, quantidade, status, UNID)
-                    VALUES (bdc_sugestoes_seq.NEXTVAL@dbl200, ?, ?, ?, ?, ?, TO_DATE(?, \'DD/MM/YYYY\'), ?, ?, ?)',
+                    (codsugitem, codsug, codauxiliar, descricao,  valor_produto, data_vencimento, quantidade, status, UNID)
+                    VALUES (bdc_sugestoes_seq.NEXTVAL@dbl200, ?, ?, ?, ?, TO_DATE(?, \'DD/MM/YYYY\'), ?, ?, ?)',
                     [
                         $codsug[0]->id,
                         $item['codigo'],
                         $item['nome'],
                         $valor_produto,
-                        $valor_sugestao,
                         $item['data'],
                         $item['quantidade'],
                         '0',

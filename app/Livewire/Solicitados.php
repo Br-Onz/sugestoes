@@ -16,7 +16,6 @@ class Solicitados extends Component
     public $codsugitem;
     public $quantidade;
     public $data_vencimento;
-    public $valor_sugerido;
     public $nome;
     public $filial;
     public $data_criacao;
@@ -79,12 +78,11 @@ class Solicitados extends Component
         }
     }
 
-    public function editItem($codsug, $codsugitem, $quantidade, $valor_sugerido, $data_vencimento)
+    public function editItem($codsug, $codsugitem, $quantidade, $data_vencimento)
     {
         $this->codsug = $codsug;
         $this->codsugitem = $codsugitem;
         $this->quantidade = $quantidade;
-        $this->valor_sugerido = $this->formatMoeda($valor_sugerido);
 
         $data_convertida = \DateTime::createFromFormat('d/m/Y', $data_vencimento);
         $this->data_vencimento = $data_convertida ? $data_convertida->format('Y-m-d') : null;
@@ -97,18 +95,15 @@ class Solicitados extends Component
         try {
             $data_convertida = \DateTime::createFromFormat('Y-m-d', $this->data_vencimento);
             $data_vencimento = $data_convertida ? $data_convertida->format('d/m/Y') : null;
-            $valor_sugerido = str_replace(['R$ ', '.', ','], ['', '', '.'], $this->valor_sugerido);
 
             DB::update(
                 "UPDATE bdc_sugestoesi@dbl200
                     SET quantidade = :quantidade,
-                        valor_sugerido = :valor_sugerido,
                         data_vencimento = TO_DATE(:data_vencimento, 'DD/MM/YYYY')
                   WHERE codsug = :codsug
                     AND codsugitem = :codsugitem",
                 [
                     'quantidade' => $this->quantidade,
-                    'valor_sugerido' => $valor_sugerido,
                     'data_vencimento' => $data_vencimento,
                     'codsug' => $this->codsug,
                     'codsugitem' => $this->codsugitem

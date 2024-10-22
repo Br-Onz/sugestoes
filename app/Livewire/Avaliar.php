@@ -21,10 +21,11 @@ class Avaliar extends Component
     public $filial;
     public $data_criacao;
     public $dados_cursor = [];
-
+    public $codsug;
+    public $valor_sugerido;
+    public $codsugitem;
     public $status;
     protected $listeners = ['confirmar'];
-
 
 
     public function mount()
@@ -41,9 +42,6 @@ class Avaliar extends Component
         );
         $this->itensc = $itens;
 
-
-
-
     }
 
     public function modalOpen($index)
@@ -58,7 +56,7 @@ class Avaliar extends Component
                                           i.codauxiliar,
                                           i.descricao,
                                           i.valor_produto,
-                                          i.valor_sugerido,
+                                          nvl(i.valor_sugerido,0) valor_sugerido,
                                           TO_CHAR(i.data_vencimento, 'DD/MM/YYYY') data_vencimento,
                                           i.quantidade,
                                           i.status,
@@ -78,6 +76,8 @@ class Avaliar extends Component
                                  AND c.codfilial = e.codfilial
                                  AND c.codsug = :codsug order by i.codsugitem asc",
                 ['codsug' => $index] );
+
+
             $this->itensi = $produtos;
             $this->nome = $produtos[0]->nome;
             $this->filial = $produtos[0]->codfilial;
@@ -115,6 +115,7 @@ class Avaliar extends Component
         ]);
 
     }
+
     public function confirmar($data)
     {
 
@@ -255,6 +256,38 @@ class Avaliar extends Component
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
 
+    public function editItem($codsug, $codsugitem, $valor_sugerido)
+    {
+        $this->codsug = $codsug;
+        $this->codsugitem = $codsugitem;
+        $this->valor_sugerido = 'R$ ' . number_format($valor_sugerido, 2, ',', '.');
+        $this->dispatch('ModalEditItem');
+    }
+
+    public function updateItem()
+    {
+        try {
+            $valor_produto = str_replace(['R$ ', '.', ','], ['', '', '.'], $this->valor_sugerido);
+            DB::update(
+                "UPDATE bdc_sugestoesi@dbl200
+                    SET
+                        valor_sugerido = :valor_sugerido
+                  WHERE codsug = :codsug
+                    AND codsugitem = :codsugitem",
+                [
+                    'valor_sugerido' => $valor_produto,
+                    'codsug' => $this->codsug,
+                    'codsugitem' => $this->codsugitem
+                ]
+            );
+            $this->modalOpen($this->codsug);
+            $this->valor_sugerido = ''; $this->codsug = ''; $this->codsugitem = '';
+            $this->toast('success', 'Item atualizado com sucesso!');
+            $this->dispatch('closeModalEditItem');
+        } catch (\Exception $e) {
+            $this->toast('error', 'Erro ao atualizar item!');
+        }
+    }
 
     public function render()
     {

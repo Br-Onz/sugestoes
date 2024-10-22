@@ -55,11 +55,11 @@
                     <table class="table table-bordered table-hover table-dark mt-3">
                         <thead>
                         <tr class="text-uppercase text-center">
-                            <th>CODSUGITEM</th>
-                            <th>NOME</th>
                             <th>CODPROD</th>
+                            <th>NOME</th>
                             <th>CODAUXILIAR</th>
                             <th>QUANTIDADE</th>
+                            <th>VALOR SUGERIDO</th>
                             <th>DATA VENCIMENTO</th>
                             <th>STATUS</th>
                             <th>Ações</th>
@@ -68,15 +68,18 @@
                         <tbody>
                         @foreach ($itensi as $index => $item)
                             <tr class="text-uppercase text-center align-middle {{ isset($item->status) ? $this->getStyleTable($item->status) : '' }}">
-                                <td>{{ $item->codsugitem }}</td>
+                                <td>{{ $item->codprod }}</td>
                                 <td class="truncate" title="{{ $item->descricao }} | {{ $item->unid }}">
                                     <div style="width: 100%; overflow: auto;">
                                         {{ $item->descricao }} | {{ $item->unid }}
                                     </div>
                                 </td>
-                                <td>{{ $item->codprod }}</td>
+
                                 <td>{{ $item->codauxiliar }}</td>
                                 <td>{{ $item->quantidade }}</td>
+                                <td class="cursor-pointer" @if($item->status == '0' || $item->status == '2') wire:click="editItem({{$item->codsug}}, {{$item->codsugitem}}, {{ $item->valor_sugerido }})" @endif>
+                                    {{ $this->formatMoeda($item->valor_sugerido ? $item->valor_sugerido : 0) }}
+                                </td>
                                 <td>{{ $item->data_vencimento }}</td>
                                 <td>
                                     @php
@@ -100,51 +103,43 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-
-                    <a href="{{ route('visualizar-pdf',['itensc' =>Crypt::encrypt($item->codsug)]) }}" class="btn btn-secondary" target="_blank">Imprimir</a>
-                    <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</a>
+                    @if(isset($item))
+                        <a href="{{ route('visualizar-pdf',['itensc' =>Crypt::encrypt($item->codsug)]) }}" class="btn btn-secondary" target="_blank">Imprimir</a>
+                        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal FILTRO  -->
-    {{--<div class="modal fade" id="ModalTableAvaliarOptions" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" wire:ignore.self>
+
+    <!-- Modal Editar Item -->
+    <div class="modal fade" id="ModalEditItem" tabindex="-1" aria-labelledby="ModalEditItemLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">FILTRO ROTINA 227</h5>
+                    <h5 class="modal-title" id="ModalEditItemLabel"><i class="bi bi-pencil"></i> Editar Item</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form wire:submit.prevent="buscarProdutoRotina">
-                        <div class="row g-3">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md">
-                                        <label class="form-label">Codprod</label>
-                                        <input type="text" class="form-control" value="{{ $codprod }}" readonly id="codprod" placeholder="Código do produto">
-                                    </div>
-                                    <div class="col-md">
-                                        <label class="form-label">Data inicial</label>
-                                        <input type="date" class="form-control" wire:model="data_inicial" id="data_inicial" placeholder="Data inicial">
-                                    </div>
-                                    <div class="col-md">
-                                        <label class="form-label">Data final</label>
-                                        <input type="date" class="form-control" wire:model="data_final" id="data_final" placeholder="Data final">
-                                    </div>
+                <div class="modal-body text-center">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row mb-4 flex justify-content-center">
+                                <div class="col-md-4">
+                                    <label for="valor_sugerido">Valor Sugerido</label>
+                                    <input type="text" class="form-control" id="valor_sugerido" wire:model="valor_sugerido" oninput="formatarMoeda(this)" required>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" wire:click="buscarProdutoRotina">Enviar</button>
+                    <button type="button" class="btn btn-primary" wire:click="updateItem">Salvar</button>
                 </div>
             </div>
         </div>
-    </div>--}}
+    </div>
 
     <!-- Modal 227 -->
     <div class="modal fade" id="ModalTableAvaliar227" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" wire:ignore.self>

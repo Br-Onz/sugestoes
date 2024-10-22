@@ -36,16 +36,13 @@ class PDFController extends Controller
 
         $itensc=$header;
 
-            $itensi = DB::select("SELECT (select SUBSTR (buscaprecos(c.codfilial,1,i.codauxiliar,SYSDATE ), 1,
-                                        INSTR (buscaprecos(c.codfilial,1,i.codauxiliar,SYSDATE ), ';', 1) - 1)
-                                        from dual) preco,i.*,c.*,e.*
-                                            FROM BDC_SUGESTOESI@DBL200 I, BDC_SUGESTOESC@DBL200 C, PCEMBALAGEM E
-                                                WHERE C.CODSUG = I.CODSUG
-                                                AND E.CODAUXILIAR = I.CODAUXILIAR
-                                                AND C.CODFILIAL = E.CODFILIAL
-                                                AND I.STATUS=1
-                                                AND I.CODSUG = ?", [$itensc[0]->codsug]);
-
+            $itensi = DB::select("SELECT *
+                                    FROM BDC_SUGESTOESI@DBL200 I, BDC_SUGESTOESC@DBL200 C, PCEMBALAGEM E
+                                    WHERE C.CODSUG = I.CODSUG
+                                      AND E.CODAUXILIAR = I.CODAUXILIAR
+                                      AND C.CODFILIAL = E.CODFILIAL
+                                      AND I.STATUS=1
+                                      AND I.CODSUG = ?", [$itensc[0]->codsug]);
         $itensc['itensi'] = $itensi;
         $itensc['pcempr'] = auth()->user();
 

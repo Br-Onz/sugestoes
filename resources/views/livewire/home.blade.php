@@ -78,18 +78,6 @@
                                             >
                                         </div>
                                         <div class="col-md">
-                                            <label class="form-label">Valor Sugestão</label>
-                                            <input
-                                                class="form-control"
-                                                type="text"
-                                                placeholder="Digite o valor sugerido"
-                                                wire:model="valor_sugestao"
-                                                id="valor_sugestao"
-                                                oninput="formatarMoeda(this)"
-                                                autocomplete="off"
-                                            >
-                                        </div>
-                                        <div class="col-md">
                                             <label class="form-label">Data de Vencimento</label>
                                             <input
                                                 class="form-control"
@@ -123,7 +111,6 @@
                                         <th>Quantidade</th>
                                         <th>Unid</th>
                                         <th>Valor</th>
-                                        <th>Valor Sugestão</th>
                                         <th>Data de Vencimento</th>
                                         <th>Ações</th>
                                     </tr>
@@ -137,7 +124,6 @@
                                             <td>{{ $item['quantidade'] }}</td>
                                             <td>{{ $item['unid'] }}</td>
                                             <td>{{ $item['valor'] }}</td>
-                                            <td>{{ $item['valor_sugestao'] }}</td>
                                             <td>{{ $item['data'] }}</td>
                                             <td class="flex justify-center gap-3">
                                                 <button class="btn btn-primary" wire:click.prevent="editarItem({{ $index }})"><i class="bi bi-pencil"></i></button>
