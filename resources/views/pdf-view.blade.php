@@ -93,7 +93,7 @@
             display: inline-block;
             width: 100%;
         }
-        .rodape {
+         .rodape {
             position: absolute;
             bottom: 10px;
             left: 10px; /* Alinha o texto à esquerda */
@@ -109,7 +109,7 @@
 
 
 <div class="conteudo">
-    <h1>Sugestão Preço</h1>
+    <h1>Sugetão Preço</h1>
     <p></p>
 </div>
 <div class="container">
@@ -166,6 +166,7 @@
                 </td>
                 <td>{{\Carbon\Carbon::parse($itensi->data_vencimento)->format('d/m/Y') }}</td>
                 <td>{{$itensi->quantidade}}</td>
+
             </tr>
         @endforeach
         </tbody>
@@ -176,8 +177,8 @@
     </div>
 </div>
 <br>
-<div class="rodape">
-    <p>Data e Hora da Impressão: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</p>
-</div>
+ <div class="rodape">
+        <p>Data e Hora da Impressão: {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</p>
+    </div>
 </body>
 </html>
