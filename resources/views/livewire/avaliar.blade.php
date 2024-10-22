@@ -66,9 +66,8 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach ($itensi as $index => $item)
-                            <tr class="text-uppercase text-center align-middle cursor-pointer {{ isset($item->status) ? $this->getStyleTable($item->status) : '' }}">
+                            <tr class="text-uppercase text-center align-middle {{ isset($item->status) ? $this->getStyleTable($item->status) : '' }}">
                                 <td>{{ $item->codsugitem }}</td>
                                 <td class="truncate" title="{{ $item->descricao }} | {{ $item->unid }}">
                                     <div style="width: 100%; overflow: auto;">
@@ -83,22 +82,21 @@
                                     @php
                                         $statusInfo = $this->getStatusBadge($item->status);
                                     @endphp
-                                    <span class="{{ $statusInfo['class'] }}">{{ $statusInfo['text'] }}</span>
+                                    <span class="{{ $statusInfo['class'] }} w-full" style="font-size: 12px">{{ $statusInfo['text'] }}</span>
                                 </td>
-                                <td>
-                                    <span class="badge bg-danger" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
+                                <td class="flex justify-content-evenly gap-3">
+                                    <span class="badge bg-danger cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
                                         Rejeitar
                                     </span>
-                                    <span class="badge bg-success" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
+                                    <span class="badge bg-success cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
                                         Aceitar
                                     </span>
-                                    <span class="badge bg-secondary" wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})">
+                                    <span class="badge bg-secondary cursor-pointer" style="padding: 10px" wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})">
                                         Analisar
                                     </span>
                                 </td>
                             </tr>
                         @endforeach
-
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -177,6 +175,11 @@
                                     </div>
                                     <div class="col-md">
                                         <p class="modal-title" id="exampleModalLabel">% DESP FIN: {{ $item['PERCDESCFIN'] }}</p>
+                                    </div>
+                                </div>
+                                <div class="row font-bold mb-2" style="font-size: 17px">
+                                    <div class="col-md">
+                                        <p class="modal-title text-red-600" id="exampleModalLabel">FILIAL: {{ $item['CODFILIAL'] }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -273,7 +276,7 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th>
+                                {{--<th>
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
@@ -281,7 +284,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </th>
+                                </th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -296,14 +299,11 @@
                                                 <div class="w-full text-left">
                                                     <span>{{ $item['DESCRICAO'].' '.$item['EMBALAGEMMASTER'] }}</span>
                                                 </div>
-                                                <div>
-                                                    <span>{{ $item['CODFAB'] }}</span>
-                                                </div>
                                             </div>
                                             <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>{{ $item['CODAUXILIAR'] }}</span>
-                                                <span class="text-transparent">{{ $item['DESCRICAO'].' '.$item['EMBALAGEMMASTER'] }}</span>
-                                                <span class="text-transparent">{{ $item['CODFAB'] }}</span>
+                                                <span>{{ $item['ICMS'] }}</span>
+                                                <span>{{ $item['CODFAB'] }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -313,12 +313,12 @@
                                         <div class="row">
                                             <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 14px;">
                                                 <span>{{ date('d/m/Y', strtotime($item['DTULTENT'])) }}</span>
-                                                <span>{{ $this->formatMoeda($item['VLULTPCOMPRA']) }}</span>
+                                                <span>{{ $this->formatMoeda($item['VALORENT']) }}</span>
                                                 <span>{{ $item['QTULTENT'] }}</span>
                                             </div>
                                             <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Unidade ></span>
-                                                <span>{{ $this->formatMoeda($item['VALORULTENT']) }}</span>
+                                                <span>{{ $this->formatMoeda($item['CD_UNIDADE']) }}</span>
                                                 <span class="text-transparent">{{ $item['QTULTENT'] }}</span>
                                             </div>
                                         </div>
@@ -328,15 +328,15 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 14px;">
-                                                <span>{{ $this->formatMoeda($item['QTVENDMES']) }}</span>
-                                                <span>{{ $this->formatMoeda($item['QTVENDMES1']) }}</span>
-                                                <span>{{ $this->formatMoeda($item['QTVENDMES2']) }}</span>
-                                                <span>{{ $this->formatMoeda($item['QTVENDMES3']) }}</span>
+                                                <span>{{ $item['QTVENDMES'] }}</span>
+                                                <span>{{ $item['QTVENDMES1'] }}</span>
+                                                <span>{{ $item['QTVENDMES2'] }}</span>
+                                                <span>{{ $item['QTVENDMES3'] }}</span>
                                             </div>
                                             <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
-                                                <span>Dia {{ $this->formatMoeda($item['QTGIRODIA']) }}</span>
-                                                <span>Sem {{ $this->formatMoeda($item['QTGIROSEMANA']) }}</span>
-                                                <span>Mês {{ $this->formatMoeda($item['QTGIROMES']) }}</span>
+                                                <span>Dia {{ $item['QTGIRODIA'] }}</span>
+                                                <span>Sem {{ $item['QTGIROSEMANA'] }}</span>
+                                                <span>Mês {{ $item['QTGIROMES'] }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -344,11 +344,17 @@
                                 <td class="text-uppercase text-center">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
-                                                <span>{{ $this->formatMoeda($item['QTESTGER']) }}</span>
+                                            <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 14px;">
+                                                <span>{{ $item['QTESTGER'] }}</span>
                                                 <span>Fat CD</span>
                                                 <span>Ped CD</span>
                                                 <span>{{ $item['ESTDIAS'] }}</span>
+                                            </div>
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
+                                                <span class="text-transparent">CD CX ></span>
+                                                <span class="text-transparent">CD CX ></span>
+                                                <span>CD CX></span>
+                                                <span>{{ $item['CD_CX'] }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -357,9 +363,9 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
-                                                <span>{{ $this->formatMoeda($item['MARGEM_PVENDA']) }}</span>
-                                                <span>{{ $this->formatMoeda($item['MARGEM_ATUAL']) }}</span>
-                                                <span>{{ $this->formatMoeda($item['MARGEM_WINTHOR']) }}</span>
+                                                <span>{{ $item['MARGEM_PVENDA'] }}</span>
+                                                <span>{{ $item['MARGEM_ATUAL'] }}</span>
+                                                <span>{{ $item['MARGEM_WINTHOR'] }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -368,11 +374,11 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-12 text-center pb-4" style="font-size: 14px;">
-                                                <span>{{ $this->formatMoeda($item['SUGCOMPRA']) }}</span>
+                                                <span>{{ $item['SUGCOMPRA'] }}</span>
                                             </div>
                                             <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Pendente</span>
-                                                <span>220</span>
+                                                <span>{{ $item['EST_PEN'] }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -405,6 +411,5 @@
             </div>
         </div>
     </div>
-
 
 </div>

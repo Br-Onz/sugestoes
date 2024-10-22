@@ -103,20 +103,6 @@
         }
     }
 
-    /*function expandCell(cell) {
-        cell.style.whiteSpace = 'normal';
-        cell.style.maxWidth = 'none';
-        cell.colSpan = 2;
-        cell.nextElementSibling.style.display = 'none';
-    }
-
-    function shrinkCell(cell) {
-        cell.style.whiteSpace = 'nowrap';
-        cell.style.maxWidth = '200px';
-        cell.colSpan = 1;
-        cell.nextElementSibling.style.display = '';
-    }*/
-
 </script>
 </body>
 </html>

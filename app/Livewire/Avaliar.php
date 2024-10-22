@@ -82,7 +82,7 @@ class Avaliar extends Component
             $this->nome = $produtos[0]->nome;
             $this->filial = $produtos[0]->codfilial;
 
-           // dd($produtos[0]->codfilial);
+            // dd($produtos[0]->codfilial);
             $this->data_criacao = $produtos[0]->data;
             $this->dispatch('ModalTableAvaliar');
         } catch (\Exception $e) {
@@ -218,11 +218,14 @@ class Avaliar extends Component
                 oci_free_statement($cursor);
 
                 // Exibir os resultados para debug
-                $this->dados_cursor = $finalResult;
-
-                $this->dispatch('ModalTableAvaliar227');
+                if ($finalResult){
+                    $this->dados_cursor = $finalResult;
+                    $this->dispatch('ModalTableAvaliar227');
+                } else {
+                    $this->toast('info', 'Nenhum registro encontrado!');
+                }
             } else {
-                dd("Nenhum cursor foi retornado.");
+                $this->toast('info', 'Nenhum cursor foi retornado.');
             }
 
             DB::commit();
