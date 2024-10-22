@@ -101,7 +101,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    <a href="{{ route('visualizar-pdf',['itensc' =>$item->codsug]) }}" class="btn btn-secondary" target="_blank">Imprimir</a>
+                    <a href="{{ route('visualizar-pdf',['itensc' =>Crypt::encrypt($item->codsug)]) }}" class="btn btn-secondary" target="_blank">Imprimir</a>
                     <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</a>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                         @endif
                     </div>
                     <div class="flex justify-between gap-3">
-                        <table class="table table-bordered table-hover  mt-3">
+                        <table  class="table table-bordered table-hover  mt-3 border-1 border-black ">
                             <thead>
                             <tr class="text-uppercase text-center">
                                 <th style="width: 23%">

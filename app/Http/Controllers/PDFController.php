@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Crypt;
 
 
 class PDFController extends Controller
@@ -26,7 +27,7 @@ class PDFController extends Controller
     public function visualizarPDF(Request $request)
     {
 
-        $codsug = $request->get('itensc');
+        $codsug = Crypt::decrypt($request->input('itensc'));
 
         $header = DB::select("SELECT *
                                     FROM BDC_SUGESTOESC@DBL200 C, PCEMPR P
