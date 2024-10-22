@@ -35,7 +35,8 @@ class Avaliar extends Component
             "SELECT  distinct c.codsug,
                              p.nome,
                              TO_CHAR(c.data, 'DD/MM/YYYY HH24:MI:SS') data,
-                             c.codfilial
+                             c.codfilial,
+                             (select count(1) from bdc_sugestoesi@dbl200 i where i.codsug = c.codsug ) as qtd_aguardando
                       FROM   bdc_sugestoesc@dbl200 c,
                              pcempr p
                      WHERE   p.matricula = c.codusuario order by c.codsug desc"
