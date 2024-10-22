@@ -109,7 +109,7 @@
     </div>
 
     <!-- Modal FILTRO  -->
-    <div class="modal fade" id="ModalTableAvaliarOptions" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" wire:ignore.self>
+    {{--<div class="modal fade" id="ModalTableAvaliarOptions" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -144,16 +144,21 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 
     <!-- Modal 227 -->
     <div class="modal fade" id="ModalTableAvaliar227" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel" style="font-size: 20px">
-                        227 - FICHA TÉCNICA POR FORNECEDOR MASTER
-                    </h5>
+                    <div class="w-full flex justify-between pr-10">
+                        <h5 class="modal-title" id="staticBackdropLabel" style="font-size: 20px">
+                            227 - FICHA TÉCNICA POR FORNECEDOR MASTER
+                        </h5>
+                        <h5 style="font-size: 20px">
+                            {{$data_inicial}} á {{$data_final}}
+                        </h5>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -276,15 +281,6 @@
                                         </div>
                                     </div>
                                 </th>
-                                {{--<th>
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
-                                                <span>QT.COMPRA</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -373,12 +369,12 @@
                                 <td>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 14px;">
+                                            <div class="col-md-12 text-center pb-2" style="font-size: 14px;">
                                                 <span>{{ $item['SUGCOMPRA'] }}</span>
                                             </div>
                                             <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Pendente</span>
-                                                <span>{{ $item['EST_PEN'] }}</span>
+                                                <span>{{ $item['QTPEDIDA'] }}</span>
                                             </div>
                                         </div>
                                     </div>

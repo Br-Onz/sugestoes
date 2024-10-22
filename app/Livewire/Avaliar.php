@@ -95,6 +95,7 @@ class Avaliar extends Component
         $this->codprod = $codigo;
         $this->codauxiliar_master = $codauxiliar;
         $this->codfilial = $codfilial;
+        $this->buscarProdutoRotina();
         $this->dispatch('ModalOptions');
     }
 
@@ -167,15 +168,17 @@ class Avaliar extends Component
 
     public function buscarProdutoRotina()
     {
-        if (!$this->data_final || !$this->data_inicial) {
-            $this->toast('error', 'Informe a data inicial e final!');
-            return;
-        }
 
         DB::beginTransaction();
 
-        $dt_inicial = \DateTime::createFromFormat('Y-m-d', $this->data_inicial)->format('d/m/Y');
-        $dt_final = \DateTime::createFromFormat('Y-m-d', $this->data_final)->format('d/m/Y');
+        $dt_inicial = \DateTime::createFromFormat('Y-m-d', date('Y-m-01'))->format('d/m/Y');
+        $dt_final = \DateTime::createFromFormat('Y-m-d', date('Y-m-d'))->format('d/m/Y');
+        /*$dt_inicial = \DateTime::createFromFormat('Y-m-d', $this->data_inicial)->format('d/m/Y');
+        $dt_final = \DateTime::createFromFormat('Y-m-d', $this->data_final)->format('d/m/Y');*/
+
+        $this->data_inicial = $dt_inicial;
+        $this->data_final = $dt_final;
+
 
         $dtinicio = $dt_inicial;
         $dtfim =  $dt_final;
@@ -236,28 +239,6 @@ class Avaliar extends Component
         }
 
 
-    }
-
-    public function index()
-    {
-        // Defina as variáveis de entrada para a função Oracle
-        $dtinicio = '2024-01-01'; // Exemplo de data inicial
-        $dtfim = '2024-12-31';    // Exemplo de data final
-        $filialcod = '01';        // Código da filial
-        $prodcod = '12345';       // Código do produto
-
-        // Chame a função Oracle BDC_F_SUGESTOES com SYS_REFCURSOR
-        $sugestoes = DB::select("BEGIN :cursor := BDC_F_SUGESTOES(?, ?, ?, ?); END;", [
-            $dtinicio,
-            $dtfim,
-            $filialcod,
-            $prodcod,
-        ], [
-            'bindings' => [DB::raw(':cursor'), PDO::PARAM_STMT] // Define o cursor como parâmetro de saída
-        ]);
-
-        // Exibir o resultado na view
-        return view('sugestoes.index', compact('sugestoes'));
     }
 
     public function toast($type, $message)
