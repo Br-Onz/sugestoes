@@ -68,10 +68,9 @@
                         <tbody>
 
                         @foreach ($itensi as $index => $item)
-
                             <tr class="text-uppercase text-center align-middle cursor-pointer {{ isset($item->status) ? $this->getStyleTable($item->status) : '' }}">
-                            <td>{{ $item->codsugitem }}</td>
-                                <td class="truncate" title="{{ $item->descricao }} | {{ $item->unid }}" onmouseover="expandCell(this)" onmouseout="shrinkCell(this)">
+                                <td>{{ $item->codsugitem }}</td>
+                                <td class="truncate" title="{{ $item->descricao }} | {{ $item->unid }}">
                                     <div style="width: 100%; overflow: auto;">
                                         {{ $item->descricao }} | {{ $item->unid }}
                                     </div>
@@ -154,7 +153,7 @@
         <div class="modal-dialog modal-dialog-centered modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="font-size: 20px">
                         227 - FICHA TÉCNICA POR FORNECEDOR MASTER
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -163,7 +162,7 @@
                     <div class="col-md-12">
                         @if(isset($dados_cursor))
                             @foreach ($dados_cursor as $index => $item)
-                                <div class="row font-bold mb-2">
+                                <div class="row font-bold mb-2" style="font-size: 17px">
                                     <div class="col-md-4">
                                         <p class="modal-title" id="exampleModalLabel">FORNECEDOR: {{ $item['CODFORNEC'] }} - {{ $item['FORNECEDOR'] }}</p>
                                         <p class="modal-title" id="exampleModalLabel">CONTATO: {{ $item['TELFAB'] }}</p>
@@ -190,7 +189,7 @@
                                 <th style="width: 23%">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex gap-3 pb-2" style="font-size: 10px;">
+                                            <div class="col-md-12 flex gap-3 pb-2" style="font-size: 15px;">
                                                 <div>
                                                     <span>COD</span>
                                                 </div>
@@ -200,25 +199,17 @@
                                                 <div>
                                                     <span>CODFAB</span>
                                                 </div>
-                                                {{--<span>COD</span>
-                                                <span style="width: 300px; text-align: left">DESCRIÇÃO</span>
-                                                <span>CODFAB</span>--}}
                                             </div>
                                         </div>
                                     </div>
-                                    {{--<div class="flex justify-between  pb-4 gap-3" style="font-size: 13px;">
-                                        <span>COD</span>
-                                        <span style="width: 300px; text-align: left">DESCRIÇÃO</span>
-                                        <span>CODFAB</span>
-                                    </div>--}}
                                 </th>
                                 <th style="width: 15%">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 13px;">
+                                            <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
                                                 <span>ÚLTIMA ENTRADA</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Dt.Ult.Ent</span>
                                                 <span>Valor</span>
                                                 <span>Qtde</span>
@@ -229,16 +220,16 @@
                                 <th style="width: 20%">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-2" style="font-size: 13px;">
+                                            <div class="col-md-12 text-center pb-2" style="font-size: 15px;">
                                                 <span>QUANTIDADE VENDA MÊS</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Atual</span>
                                                 <span>Ant1</span>
                                                 <span>Ant2</span>
                                                 <span>Ant3</span>
                                             </div>
-                                            <div class="col-md-12 text-center" style="font-size: 10px;">
+                                            <div class="col-md-12 text-center" style="font-size: 14px;">
                                                 <span>MÉDIA GIRO</span>
                                             </div>
                                         </div>
@@ -247,10 +238,10 @@
                                 <th style="width: 15%">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 13px;">
+                                            <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
                                                 <span>ESTOQUE</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Disp</span>
                                                 <span>Fat CD</span>
                                                 <span>Ped CD</span>
@@ -262,10 +253,10 @@
                                 <th style="width: 15%">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 13px;">
+                                            <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
                                                 <span>MARGEM PREÇO</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>P.Venda</span>
                                                 <span>Mg-Atual</span>
                                                 <span>Mg-Winthor</span>
@@ -276,7 +267,7 @@
                                 <th>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 13px;">
+                                            <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
                                                 <span>SUGESTÃO</span>
                                             </div>
                                         </div>
@@ -285,7 +276,7 @@
                                 <th>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 13px;">
+                                            <div class="col-md-12 text-center pb-4" style="font-size: 15px;">
                                                 <span>QT.COMPRA</span>
                                             </div>
                                         </div>
@@ -298,7 +289,7 @@
                                 <td class="text-uppercase text-center">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex gap-3 pb-2" style="font-size: 10px;">
+                                            <div class="col-md-12 flex gap-3 pb-2" style="font-size: 14px;">
                                                 <div>
                                                     <span>{{ $item['CODPROD'] }}</span>
                                                 </div>
@@ -308,11 +299,8 @@
                                                 <div>
                                                     <span>{{ $item['CODFAB'] }}</span>
                                                 </div>
-                                                {{--<span>{{ $item['CODPROD'] }}</span>
-                                                <span  style="width: 300px; text-align: left">{{ $item['DESCRICAO'].' '.$item['EMBALAGEMMASTER'] }}</span>
-                                                <span>{{ $item['CODFAB'] }}</span>--}}
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>{{ $item['CODAUXILIAR'] }}</span>
                                                 <span class="text-transparent">{{ $item['DESCRICAO'].' '.$item['EMBALAGEMMASTER'] }}</span>
                                                 <span class="text-transparent">{{ $item['CODFAB'] }}</span>
@@ -323,12 +311,12 @@
                                 <td class="text-uppercase text-center ">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 14px;">
                                                 <span>{{ date('d/m/Y', strtotime($item['DTULTENT'])) }}</span>
                                                 <span>{{ $this->formatMoeda($item['VLULTPCOMPRA']) }}</span>
                                                 <span>{{ $item['QTULTENT'] }}</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Unidade ></span>
                                                 <span>{{ $this->formatMoeda($item['VALORULTENT']) }}</span>
                                                 <span class="text-transparent">{{ $item['QTULTENT'] }}</span>
@@ -339,13 +327,13 @@
                                 <td class="text-uppercase text-center">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3 pb-2" style="font-size: 14px;">
                                                 <span>{{ $this->formatMoeda($item['QTVENDMES']) }}</span>
                                                 <span>{{ $this->formatMoeda($item['QTVENDMES1']) }}</span>
                                                 <span>{{ $this->formatMoeda($item['QTVENDMES2']) }}</span>
                                                 <span>{{ $this->formatMoeda($item['QTVENDMES3']) }}</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Dia {{ $this->formatMoeda($item['QTGIRODIA']) }}</span>
                                                 <span>Sem {{ $this->formatMoeda($item['QTGIROSEMANA']) }}</span>
                                                 <span>Mês {{ $this->formatMoeda($item['QTGIROMES']) }}</span>
@@ -356,7 +344,7 @@
                                 <td class="text-uppercase text-center">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>{{ $this->formatMoeda($item['QTESTGER']) }}</span>
                                                 <span>Fat CD</span>
                                                 <span>Ped CD</span>
@@ -368,7 +356,7 @@
                                 <td>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>{{ $this->formatMoeda($item['MARGEM_PVENDA']) }}</span>
                                                 <span>{{ $this->formatMoeda($item['MARGEM_ATUAL']) }}</span>
                                                 <span>{{ $this->formatMoeda($item['MARGEM_WINTHOR']) }}</span>
@@ -379,10 +367,10 @@
                                 <td>
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 text-center pb-4" style="font-size: 10px;">
+                                            <div class="col-md-12 text-center pb-4" style="font-size: 14px;">
                                                 <span>{{ $this->formatMoeda($item['SUGCOMPRA']) }}</span>
                                             </div>
-                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 10px;">
+                                            <div class="col-md-12 flex justify-between gap-3" style="font-size: 14px;">
                                                 <span>Pendente</span>
                                                 <span>220</span>
                                             </div>
@@ -397,7 +385,7 @@
                         @foreach ($dados_cursor as $index => $item)
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="row font-bold">
+                                    <div class="row font-bold" style="font-size: 17px">
                                         <div class="col-md-12 pb-2 flex gap-5 text-left">
                                             <span>FONECEDOR BLOQUEADO: {{ $item['BLOQUEIO'] }}</span>
                                             <span>DATA BLOQUEIO: {{ $item['DTBLOQUEIO'] }}</span>
@@ -412,8 +400,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
