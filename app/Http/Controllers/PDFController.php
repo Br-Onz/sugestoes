@@ -40,6 +40,7 @@ class PDFController extends Controller
                                     WHERE C.CODSUG = I.CODSUG
                                       AND E.CODAUXILIAR = I.CODAUXILIAR
                                       AND C.CODFILIAL = E.CODFILIAL
+                                      AND I.STATUS=1
                                       AND I.CODSUG = ?", [$itensc[0]->codsug]);
         $itensc['itensi'] = $itensi;
         $itensc['pcempr'] = auth()->user();
