@@ -18,6 +18,7 @@
                                 <th class="text-center">CODSUG</th>
                                 <th class="text-center">NOME</th>
                                 <th class="text-center">CODFILIAL</th>
+                                <th class="text-center">QT ITENS</th>
                                 <th class="text-center">DATA CRIAÇÃO</th>
                             </tr>
                             </thead>
@@ -27,6 +28,7 @@
                                     <td class="text-center">{{ $item->codsug }}</td>
                                     <td class="text-center">{{ $item->nome }}</td>
                                     <td class="text-center">{{ $item->codfilial }}</td>
+                                    <td class="text-center">{{ $item->qtd_aguardando }}</td>
                                     <td class="text-center">{{ $item->data }}</td>
                                 </tr>
                             @endforeach
