@@ -18,7 +18,7 @@
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="form-label">Filial</label>
-                                            <select class="form-select" wire:model="codfilial">
+                                            <select class="form-select" wire:model="codfilial" @if($selectedFilial == 'true') disabled @endif>
                                                 @foreach ($pclib_fil as $index => $item)
                                                     @if($index == 0)
                                                         <option value="">Escolha uma Filial</option>
