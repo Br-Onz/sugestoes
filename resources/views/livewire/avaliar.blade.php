@@ -79,7 +79,7 @@
 
                                 <td>{{ $item->codauxiliar }}</td>
                                 <td>{{ $item->quantidade }}</td>
-                                <td class="cursor-pointer" @if($item->status == '0' || $item->status == '2') wire:click="editItem({{$item->codsug}}, {{$item->codsugitem}}, {{ $item->valor_sugerido }})" @endif>
+                                <td  >
                                     {{ $this->formatMoeda($item->valor_sugerido ? $item->valor_sugerido : 0) }}
                                 </td>
                                 <td>{{ $item->data_vencimento }}</td>
@@ -90,15 +90,15 @@
                                     <span class="{{ $statusInfo['class'] }} w-full" style="font-size: 12px">{{ $statusInfo['text'] }}</span>
                                 </td>
                                 <td class="flex justify-content-evenly gap-3">
-                                    @if($item->status == 0 || $item->status == 1)
+
                                         <span class="badge bg-danger cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
                                         Rejeitar
                                         </span>
-                                    @elseif($item->status == 2)
-                                        <span class="badge bg-success cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
+
+                                        <span class="badge bg-success cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click="editItem({{$item->codsug}}, {{$item->codsugitem}}, {{ $item->valor_sugerido }})">
                                         Aceitar
                                         </span>
-                                    @endif
+
                                     <span class="badge bg-secondary cursor-pointer" style="padding: 10px;" id="span-loading"
                                           wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})"
                                           onclick="spanLoading();"
@@ -126,7 +126,7 @@
     </div>
 
     <!-- Modal Editar Item -->
-    <div class="modal fade" id="ModalEditItem" tabindex="-1" aria-labelledby="ModalEditItemLabel" aria-hidden="true">
+    <div class="modal fade" id="ModalEditItem" tabindex="-1" aria-labelledby="ModalEditItemLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
