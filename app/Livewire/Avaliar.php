@@ -269,6 +269,13 @@ class Avaliar extends Component
     {
         try {
             $valor_produto = str_replace(['R$ ', '.', ','], ['', '', '.'], $this->valor_sugerido);
+
+            if (floatval($valor_produto)==0.0){
+
+                $this->toast('error', 'Valor Sugerido Zerado!');
+                return;
+
+            }
             DB::update(
                 "UPDATE bdc_sugestoesi@dbl200
                     SET
