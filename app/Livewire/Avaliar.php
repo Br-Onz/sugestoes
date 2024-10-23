@@ -272,7 +272,8 @@ class Avaliar extends Component
             DB::update(
                 "UPDATE bdc_sugestoesi@dbl200
                     SET
-                        valor_sugerido = :valor_sugerido
+                        valor_sugerido = :valor_sugerido,
+                        status = 1
                   WHERE codsug = :codsug
                     AND codsugitem = :codsugitem",
                 [

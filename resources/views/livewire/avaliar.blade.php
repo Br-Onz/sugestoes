@@ -90,12 +90,15 @@
                                     <span class="{{ $statusInfo['class'] }} w-full" style="font-size: 12px">{{ $statusInfo['text'] }}</span>
                                 </td>
                                 <td class="flex justify-content-evenly gap-3">
-                                    <span class="badge bg-danger cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
+                                    @if($item->status == 0 || $item->status == 1)
+                                        <span class="badge bg-danger cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
                                         Rejeitar
-                                    </span>
-                                    <span class="badge bg-success cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
+                                        </span>
+                                    @elseif($item->status == 2)
+                                        <span class="badge bg-success cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
                                         Aceitar
-                                    </span>
+                                        </span>
+                                    @endif
                                     <span class="badge bg-secondary cursor-pointer" style="padding: 10px" wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})">
                                         Analisar
                                     </span>
