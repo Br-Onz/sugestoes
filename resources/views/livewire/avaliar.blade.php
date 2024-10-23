@@ -91,17 +91,25 @@
                                 </td>
                                 <td class="flex justify-content-evenly gap-3">
                                     @if($item->status == 0 || $item->status == 1)
-                                        <span class="badge bg-danger cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
+                                        <span class="badge bg-danger cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
                                         Rejeitar
                                         </span>
                                     @elseif($item->status == 2)
-                                        <span class="badge bg-success cursor-pointer" style="padding: 10px" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
+                                        <span class="badge bg-success cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},1)">
                                         Aceitar
                                         </span>
                                     @endif
-                                    <span class="badge bg-secondary cursor-pointer" style="padding: 10px" wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})">
-                                        Analisar
+                                    <span class="badge bg-secondary cursor-pointer" style="padding: 10px;" id="span-loading"
+                                          wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})"
+                                          onclick="spanLoading();"
+                                    >
+                                            Analisar
                                     </span>
+                                    <button class="badge bg-secondary" type="button" disabled id="button-loading" style="display: none;">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Loading...</span>
+                                    </button>
+
                                 </td>
                             </tr>
                         @endforeach
@@ -116,7 +124,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Modal Editar Item -->
     <div class="modal fade" id="ModalEditItem" tabindex="-1" aria-labelledby="ModalEditItemLabel" aria-hidden="true">

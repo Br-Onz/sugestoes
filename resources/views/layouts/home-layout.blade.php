@@ -103,6 +103,20 @@
         }
     }
 
+    function spanLoading() {
+        var spanLoading = document.querySelectorAll("#span-loading");
+        var buttonLoading = document.querySelectorAll("#button-loading");
+
+        spanLoading.forEach(function (item) {
+            item.style.display = "none";
+        });
+
+        buttonLoading.forEach(function (item) {
+            item.style.display = "block";
+            item.style.width = "71px";
+        });
+    }
+
 </script>
 </body>
 </html>
