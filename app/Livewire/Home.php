@@ -25,6 +25,7 @@ class Home extends Component
     public $codfilial;
     public $unid;
     public $edit = false;
+    public $selectedFilial = 'false';
     protected $listeners = ['confirmed'];
 
     public function mount()
@@ -140,7 +141,7 @@ class Home extends Component
             ];
             $this->indexEditando = null;
         }
-
+        $this->selectedFilial = 'true';
         $this->reset(['codigo', 'nome', 'quantidade', 'valor', 'data']); // Limpa os campos do formulário
         $this->dispatch('NovoItem'); // Dispara um evento para focar no campo de código
     }
@@ -222,8 +223,9 @@ class Home extends Component
                     ]
                 );
             }
-
             $this->toast('success', 'Itens salvos com sucesso!');
+            $this->selectedFilial = 'false';
+            $this->codfilial = '';
             $this->itens = [];
         } catch (Exception $e) {
             $this->toast('error', 'Erro ao salvar os itens no banco de dados!');
