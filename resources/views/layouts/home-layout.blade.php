@@ -117,6 +117,19 @@
         });
     }
 
+    function spanLoadingHome() {
+        var spanLoading = document.querySelectorAll("#span-loading");
+        var buttonLoading = document.querySelectorAll("#button-loading");
+
+        spanLoading.forEach(function (item) {
+            item.style.display = "none";
+        });
+
+        buttonLoading.forEach(function (item) {
+            item.style.display = "block";
+        });
+    }
+
 </script>
 </body>
 </html>

@@ -200,12 +200,13 @@ class Home extends Component
             DB::insert('insert into bdc_sugestoesc@dbl200 (codsug,codusuario,data,codfilial)
                             values (? ,?, sysdate, ?)', [$codsug[0]->id ,auth()->user()->matricula, $this->codfilial]);
 
+            if (empty($this->itens)) {
+                $this->toast('error', 'Nenhum item para salvar!');
+                return;
+            }
+
             foreach ($this->itens as $item) {
-
                 $valor_produto = str_replace(['R$ ', '.', ','], ['', '', '.'], $item['valor']);
-
-                $data_vencimento = date('d/m/Y', strtotime($item['data']));
-
                 DB::insert('INSERT INTO bdc_sugestoesi@dbl200
                     (codsugitem, codsug, codauxiliar, descricao,  valor_produto, data_vencimento, quantidade, status, UNID)
                     VALUES (bdc_sugestoes_seq.NEXTVAL@dbl200, ?, ?, ?, ?, TO_DATE(?, \'DD/MM/YYYY\'), ?, ?, ?)',

@@ -135,7 +135,11 @@
                                 </table>
                             </div>
                             <div class="flex justify-end gap-3 pt-3">
-                                <button class="btn btn-success" wire:click.prevent="salvarItens">Salvar Itens</button>
+                                <button class="btn btn-success" wire:click.prevent="salvarItens" id="span-loading"  onclick="spanLoadingHome();">Salvar Itens</button>
+                                <button class="btn btn-primary" type="button" disabled id="button-loading" style="display: none;">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Enviando...
+                                </button>
                             </div>
                         @endif
                     </div>
