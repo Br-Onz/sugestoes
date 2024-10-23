@@ -117,8 +117,8 @@
                 </div>
                 <div class="modal-footer">
                     @if(isset($item))
-                        <a href="{{ route('visualizar-pdf',['itensc' =>Crypt::encrypt($item->codsug)]) }}" class="btn btn-secondary" target="_blank">Imprimir</a>
-                        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</a>
+                        <button type="button" class="btn btn-secondary" wire:click.prevent="VisualizarPDF({{ $item->codsug }})">Imprimir</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     @endif
                 </div>
             </div>

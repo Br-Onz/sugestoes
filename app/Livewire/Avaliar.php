@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use PDO;
+use Illuminate\Support\Facades\Crypt;
 
 class Avaliar extends Component
 {
@@ -26,7 +27,6 @@ class Avaliar extends Component
     public $codsugitem;
     public $status;
     protected $listeners = ['confirmar'];
-
 
     public function mount()
     {
@@ -175,8 +175,7 @@ class Avaliar extends Component
 
         $dt_inicial = \DateTime::createFromFormat('Y-m-d', date('Y-m-01'))->format('d/m/Y');
         $dt_final = \DateTime::createFromFormat('Y-m-d', date('Y-m-d'))->format('d/m/Y');
-        /*$dt_inicial = \DateTime::createFromFormat('Y-m-d', $this->data_inicial)->format('d/m/Y');
-        $dt_final = \DateTime::createFromFormat('Y-m-d', $this->data_final)->format('d/m/Y');*/
+
 
         $this->data_inicial = $dt_inicial;
         $this->data_final = $dt_final;
@@ -208,21 +207,21 @@ class Avaliar extends Component
             $stmt->bindParam(':filialcod', $filialcod, PDO::PARAM_INT);
             $stmt->bindParam(':prodcod', $prodcod, PDO::PARAM_INT);
 
-            // Executar a consulta
+
             $stmt->execute();
 
-            // Verificar se o cursor foi retornado
+
             if ($cursor) {
-                // Executar o cursor para obter os resultados
+
                 oci_execute($cursor);
 
                 while ($row = oci_fetch_assoc($cursor)) {
-                    $finalResult[] = $row; // Coletar resultados em array
+                    $finalResult[] = $row;
                 }
-                // Liberar o cursor
+
                 oci_free_statement($cursor);
 
-                // Exibir os resultados para debug
+
                 if ($finalResult){
                     $this->dados_cursor = $finalResult;
                     $this->dispatch('ModalTableAvaliar227');
@@ -296,6 +295,20 @@ class Avaliar extends Component
         } catch (\Exception $e) {
             $this->toast('error', 'Erro ao atualizar item!');
         }
+    }
+
+    public function VisualizarPDF($data){
+
+        $verificar = DB::select("SELECT * FROM BDC_SUGESTOESI@DBL200 WHERE STATUS=1 AND CODSUG = ?",[$data]);
+
+        if (empty($verificar)){
+            $this->toast('error', 'Aceitar Sugestão!');
+            return;
+        }
+
+        $url = route('visualizar-pdf', ['itensc' => Crypt::encrypt($data)]);
+        $this->dispatch('abrir-nova-aba', ['url' => $url]);
+
     }
 
     public function render()
