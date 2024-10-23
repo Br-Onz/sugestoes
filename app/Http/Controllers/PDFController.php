@@ -9,20 +9,6 @@ use Illuminate\Support\Facades\Crypt;
 
 class PDFController extends Controller
 {
-    public function gerarPDF() //Fazer Download Direto sem Abrir PDF
-    {
-
-        $dados = [
-            'titulo' => 'Sugestão',
-            'conteudo' => 'Conteúdo do relatório de vendas...',
-        ];
-
-
-        $pdf = Pdf::loadView('pdf-view', $dados);
-
-
-        return $pdf->download('relatorio.pdf');
-    }
 
     public function visualizarPDF(Request $request)
     {
@@ -50,8 +36,8 @@ class PDFController extends Controller
 
 
         $dados = [
-            'titulo' => 'Relatório de Vendas',
-            'conteudo' => 'Conteúdo do relatório de vendas...',
+            'titulo' => 'Relatório',
+            'conteudo' => '',
             'itensc' => $itensc,
         ];
 
