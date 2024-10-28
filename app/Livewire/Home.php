@@ -237,4 +237,5 @@ class Home extends Component
     {
         return view('livewire.home')->layout('layouts.home-layout');
     }
+
 }

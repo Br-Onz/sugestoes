@@ -95,7 +95,7 @@
                                         Rejeitar
                                         </span>
 
-                                        <span class="badge bg-success cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click="editItem({{$item->codsug}}, {{$item->codsugitem}}, {{ $item->valor_sugerido }})">
+                                    <span class="badge bg-success cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click="editItem({{$item->codsug}}, {{$item->codsugitem}}, {{ $item->valor_sugerido }})">
                                         Aceitar
                                         </span>
 
