@@ -78,7 +78,6 @@ class Avaliar extends Component
                                  AND c.codsug = :codsug order by i.codsugitem asc",
                 ['codsug' => $index] );
 
-
             $this->itensi = $produtos;
             $this->nome = $produtos[0]->nome;
             $this->filial = $produtos[0]->codfilial;
@@ -256,25 +255,17 @@ class Avaliar extends Component
         return 'R$ ' . number_format($value, 2, ',', '.');
     }
 
-    public function editItem($codsug, $codsugitem, $valor_sugerido)
-    {
-        $this->codsug = $codsug;
-        $this->codsugitem = $codsugitem;
-        $this->valor_sugerido = 'R$ ' . number_format($valor_sugerido, 2, ',', '.');
-        $this->dispatch('ModalEditItem');
-    }
 
-    public function updateItem()
+    public function updateItem($codsug, $codsugitem, $valor_sugerido)
     {
         try {
-            $valor_produto = str_replace(['R$ ', '.', ','], ['', '', '.'], $this->valor_sugerido);
+            $valor_produto = str_replace(['R$ ', '.', ','], ['', '', '.'], $valor_sugerido);
 
             if (floatval($valor_produto)==0.0){
-
                 $this->toast('error', 'Valor Sugerido Zerado!');
                 return;
-
             }
+
             DB::update(
                 "UPDATE bdc_sugestoesi@dbl200
                     SET
@@ -284,14 +275,13 @@ class Avaliar extends Component
                     AND codsugitem = :codsugitem",
                 [
                     'valor_sugerido' => $valor_produto,
-                    'codsug' => $this->codsug,
-                    'codsugitem' => $this->codsugitem
+                    'codsug' => $codsug,
+                    'codsugitem' => $codsugitem
                 ]
             );
-            $this->modalOpen($this->codsug);
-            $this->valor_sugerido = ''; $this->codsug = ''; $this->codsugitem = '';
+            $this->modalOpen($codsug);
             $this->toast('success', 'Item atualizado com sucesso!');
-            $this->dispatch('closeModalEditItem');
+
         } catch (\Exception $e) {
             $this->toast('error', 'Erro ao atualizar item!');
         }
