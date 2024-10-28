@@ -89,7 +89,7 @@
             $('#ModalEditItem').modal('hide');
         });
         Livewire.on('abrir-nova-aba', data => {
-           window.open(data[0].url, '_blank');
+            window.open(data[0].url, '_blank');
         });
 
     });
@@ -156,6 +156,7 @@
     });
 
 </script>
+
 </body>
 </html>
 

@@ -76,10 +76,9 @@
                                         {{ $item->descricao }} | {{ $item->unid }}
                                     </div>
                                 </td>
-
                                 <td>{{ $item->codauxiliar }}</td>
                                 <td>{{ $item->quantidade }}</td>
-                                <td  >
+                                <td id="valor_sugerido">
                                     {{ $this->formatMoeda($item->valor_sugerido ? $item->valor_sugerido : 0) }}
                                 </td>
                                 <td>{{ $item->data_vencimento }}</td>
@@ -90,26 +89,33 @@
                                     <span class="{{ $statusInfo['class'] }} w-full" style="font-size: 12px">{{ $statusInfo['text'] }}</span>
                                 </td>
                                 <td class="flex justify-content-evenly gap-3">
-
-                                        <span class="badge bg-danger cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)">
-                                        Rejeitar
+                                        <span
+                                            class="badge bg-danger cursor-pointer"
+                                            style="padding: 10px; display: flex; align-items: center"
+                                            wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)"
+                                        >
+                                         Rejeitar
                                         </span>
 
-                                    <span class="badge bg-success cursor-pointer" style="padding: 10px; display: flex; align-items: center" wire:click="editItem({{$item->codsug}}, {{$item->codsugitem}}, {{ $item->valor_sugerido }})">
-                                        Aceitar
-                                        </span>
-
-                                    <span class="badge bg-secondary cursor-pointer" style="padding: 10px;" id="span-loading"
-                                          wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})"
-                                          onclick="spanLoading();"
+                                    <span
+                                        class="badge bg-success cursor-pointer"
+                                        style="padding: 10px; display: flex; align-items: center"
+                                        onClick="toggleEdit(this, {{$item->codsug}}, {{$item->codsugitem}})"
                                     >
-                                            Analisar
+                                        Aceitar
+                                    </span>
+
+                                    <span
+                                        class="badge bg-secondary cursor-pointer" style="padding: 10px;" id="span-loading"
+                                        wire:click="modalOpenOptions({{$item->codprod}} , {{$item->prod_codauxiliar}}, {{ $item->codfilial }})"
+                                        onclick="spanLoading();"
+                                    >
+                                        Analisar
                                     </span>
                                     <button class="badge bg-secondary" type="button" disabled id="button-loading" style="display: none;">
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                         <span class="visually-hidden">Loading...</span>
                                     </button>
-
                                 </td>
                             </tr>
                         @endforeach
@@ -120,34 +126,6 @@
                         <button type="button" class="btn btn-secondary" wire:click.prevent="VisualizarPDF({{ $item->codsug }})">Imprimir</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Editar Item -->
-    <div class="modal fade" id="ModalEditItem" tabindex="-1" aria-labelledby="ModalEditItemLabel" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalEditItemLabel"><i class="bi bi-pencil"></i> Editar Item</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row mb-4 flex justify-content-center">
-                                <div class="col-md-4">
-                                    <label for="valor_sugerido">Valor Sugerido</label>
-                                    <input type="text" class="form-control" id="valor_sugerido" wire:model="valor_sugerido" oninput="formatarMoeda(this)" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" wire:click="updateItem">Salvar</button>
                 </div>
             </div>
         </div>
@@ -414,5 +392,55 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleEdit(button, codsug, codsugitem) {
+            const row = button.closest("tr");
+            const valorSugeridoCell = row.querySelector("#valor_sugerido");
+
+            if (row.classList.contains("editing")) {
+                // Captura o valor do input e substitui o conteúdo do <td> com o valor
+                const valorInput = valorSugeridoCell.querySelector("input").value;
+                valorSugeridoCell.innerHTML = valorInput;
+
+                // Chama a função do Livewire para atualizar o valor
+            @this.call('updateItem', codsug, codsugitem, valorInput);
+
+                // Alterna o modo de exibição
+                row.classList.remove("editing");
+                button.textContent = "Aceitar";
+            } else {
+                // Armazena o valor atual e exibe o campo de input
+                const valorSugeridoAtual = valorSugeridoCell.textContent;
+                valorSugeridoCell.innerHTML = `<input name="valor_sugerido" value="${valorSugeridoAtual}" oninput="formatarMoeda(this)" onkeydown="handleKeyPress(event, this, ${codsug}, ${codsugitem})">`;
+                valorSugeridoCell.querySelector("input").focus();
+
+                // Alterna para o modo de edição
+                row.classList.add("editing");
+                button.textContent = "Salvar";
+            }
+        }
+
+        function handleKeyPress(event, input, codsug, codsugitem) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+
+                const valorInput = input.value;
+                const valorSugeridoCell = input.closest("td");
+                valorSugeridoCell.innerHTML = valorInput;
+
+            @this.call('updateItem', codsug, codsugitem, valorInput);
+
+                const row = input.closest("tr");
+                if (row) {
+                    row.classList.remove("editing");
+                    const button = row.querySelector(".badge");
+                    if (button) {
+                        button.textContent = "Aceitar";
+                    }
+                }
+            }
+        }
+    </script>
 
 </div>
