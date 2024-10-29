@@ -89,13 +89,13 @@
                                     <span class="{{ $statusInfo['class'] }} w-full" style="font-size: 12px">{{ $statusInfo['text'] }}</span>
                                 </td>
                                 <td class="flex justify-content-evenly gap-3">
-                                        <span
-                                            class="badge bg-danger cursor-pointer"
-                                            style="padding: 10px; display: flex; align-items: center"
-                                            wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)"
-                                        >
+                                    <span
+                                        class="badge bg-danger cursor-pointer"
+                                        style="padding: 10px; display: flex; align-items: center"
+                                        wire:click.prevent="StatusItem({{$item->codsugitem}},{{$item->codsug}},2)"
+                                    >
                                          Rejeitar
-                                        </span>
+                                    </span>
 
                                     <span
                                         class="badge bg-success cursor-pointer"
