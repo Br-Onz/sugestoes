@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'pcempr', // Guard padrão alterado para 'pcempr'
+        'passwords' => 'users',
     ],
 
     /*
@@ -23,13 +23,9 @@ return [
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | Next, you may define every authentication guard for your application.
-    | Of course, a great default configuration has been defined for you
-    | which utilizes session storage plus the Eloquent user provider.
-    |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
+    | Here you may define every authentication guard for your application.
+    | A great default configuration has been defined for you which uses
+    | session storage and the Eloquent user provider.
     |
     | Supported: "session"
     |
@@ -40,6 +36,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'pcempr' => [
+            'driver' => 'session', // Guard personalizado usando 'session'
+            'provider' => 'pcempr', // Provider associado a 'pcempr'
+        ],
     ],
 
     /*
@@ -49,11 +50,7 @@ return [
     |
     | All authentication guards have a user provider, which defines how the
     | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
-    |
-    | If you have multiple user tables or models you may configure multiple
-    | providers to represent the model / table. These providers may then
-    | be assigned to any extra authentication guards you have defined.
+    | system used by the application. Typically, Eloquent is used.
     |
     | Supported: "database", "eloquent"
     |
@@ -62,10 +59,14 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Pcempr::class, // Usando o modelo Pcempr
+            'model' => env('AUTH_MODEL', App\Models\User::class), // Modelo padrão de usuário
+        ],
+
+        'pcempr' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pcempr::class, // Modelo personalizado para PCempr
         ],
     ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -77,12 +78,7 @@ return [
     | and the user provider that is invoked to actually retrieve users.
     |
     | The expiry time is the number of minutes that each reset token will be
-    | considered valid. This security feature keeps tokens short-lived so
-    | they have less time to be guessed. You may change this as needed.
-    |
-    | The throttle setting is the number of seconds a user must wait before
-    | generating more password reset tokens. This prevents the user from
-    | quickly generating a very large amount of password reset tokens.
+    | considered valid. You may change this as needed.
     |
     */
 
