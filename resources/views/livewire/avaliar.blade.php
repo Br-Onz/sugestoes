@@ -410,12 +410,20 @@
                 row.classList.remove("editing");
                 button.textContent = "Aceitar";
             } else {
-                // Armazena o valor atual e exibe o campo de input
-                const valorSugeridoAtual = valorSugeridoCell.textContent;
-                valorSugeridoCell.innerHTML = `<input name="valor_sugerido" value="${valorSugeridoAtual}" oninput="formatarMoeda(this)" onkeydown="handleKeyPress(event, this, ${codsug}, ${codsugitem})">`;
-                valorSugeridoCell.querySelector("input").focus();
 
-                // Alterna para o modo de edição
+                const valorSugeridoAtual = valorSugeridoCell.textContent.trim();
+                valorSugeridoCell.innerHTML = `
+                    <input
+                        name="valor_sugerido"
+                        value="${valorSugeridoAtual}"
+                        oninput="formatarMoeda(this)"
+                        onkeydown="handleKeyPress(event, this, ${codsug}, ${codsugitem})"
+                    >
+                `;
+                const input = valorSugeridoCell.querySelector("input");
+                input.focus();
+                input.setSelectionRange(input.value.length, input.value.length);
+
                 row.classList.add("editing");
                 button.textContent = "Salvar";
             }
