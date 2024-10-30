@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Session;
-use App\Models\PCempr;
+use App\Models\Pcempr;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +31,7 @@ class Login extends Component
             $usuario = $this->buscarUsuario();
 
             if ($usuario) {
-                $user = new PCempr((array)$usuario);
+                $user = new Pcempr((array)$usuario);
 
                 // Verificar permissões
                 $permissoes = $this->getPermissoes($user);
@@ -40,6 +40,7 @@ class Login extends Component
                     return; // Retorna imediatamente se não houver permissões
                 }
 
+                // Atribuir permissões a Session
                 Session::put('pccontro', $permissoes);
 
                 Auth::login($user, $this->remember);
@@ -69,7 +70,7 @@ class Login extends Component
     }
 
     // Metodo para obter permissões do usuário
-    private function getPermissoes(PCempr $user)
+    private function getPermissoes(Pcempr $user)
     {
         try {
             $permissoes = DB::connection('oracle')
