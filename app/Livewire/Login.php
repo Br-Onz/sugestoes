@@ -40,7 +40,6 @@ class Login extends Component
                     return; // Retorna imediatamente se não houver permissões
                 }
 
-                // Atribuir permissões a Session
                 Session::put('pccontro', $permissoes);
 
                 Auth::login($user, $this->remember);
