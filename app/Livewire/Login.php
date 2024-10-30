@@ -2,11 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Pccontro;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use App\Models\PCempr;
 use Livewire\Component;
-use App\Models\Pcempr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Exception;
 
 class Login extends Component
 {
@@ -14,58 +16,114 @@ class Login extends Component
 
     public $loginName;
     public $password;
+    public $remember = false;
 
     protected $rules = [
-        'loginName' => 'required',
-        'password' => 'required',
+        'loginName' => 'required|string',
+        'password' => 'required|string',
     ];
 
     public function login()
     {
-        $codrotina = 1444;
-        $this->validate(); // Valida o loginName e password
+        $this->validate();
 
-        //Valida Login e retorna Pccontroi para Parametrizar a HOME
-        $pcempr = Pcempr::with(['pccontroi' => function ($query) use ($codrotina) {
-            $query->where('codrotina', $codrotina);
-        }])
-            ->where('usuariobd', strtoupper($this->loginName))
-            ->whereRaw('decrypt(senhabd,usuariobd) = ?', strtoupper($this->password))
-            ->first();
+        try {
+            $usuario = $this->buscarUsuario();
 
+            if ($usuario) {
+                $user = new PCempr((array)$usuario);
 
-        if (!$pcempr) {
-            $this->alert('error', 'Login ou senha inválida', [
-                'timer' => 3000,
-                'toast' => true,
-                'timerProgressBar' => true,
-            ]);
-            return;
+                // Verificar permissões
+                $permissoes = $this->getPermissoes($user);
+
+                if ($permissoes === false) {
+                    return; // Retorna imediatamente se não houver permissões
+                }
+
+                // Atribuir permissões a Session
+                Session::put('pccontro', $permissoes);
+
+                Auth::login($user, $this->remember);
+
+                return redirect()->route('home');
+            } else {
+                $this->alertaErro('Usuário ou Senha Inválidos');
+            }
+        } catch (Exception $e) {
+            $this->alertaErro('Erro ao conectar ao banco de dados: ' . $e->getMessage());
         }
+    }
 
-        $pccontro = Pccontro::where('codrotina', $codrotina)
-            ->where('acesso', 'S')
-            ->where('codusuario', $pcempr->matricula)
-            ->first();
-
-
-        if (!$pccontro) {
-
-            $this->alert('error', 'Usuário sem permissão para acessar o sistema', [
-                'timer' => 3000,
-                'toast' => true,
-                'timerProgressBar' => true,
-            ]);
-            return;
+    // Metodo para buscar usuário no banco de dados Oracle
+    private function buscarUsuario()
+    {
+        try {
+            return DB::connection('oracle')
+                ->table('pcempr')
+                ->where('usuariobd', strtoupper($this->loginName))
+                ->whereRaw("decrypt(senhabd, usuariobd) = ?", [strtoupper($this->password)])
+                ->first();
+        } catch (Exception $e) {
+            $this->alertaErro('Erro ao buscar usuário: ' . $e->getMessage());
+            return null;
         }
+    }
 
-        if ($pcempr) {
+    // Metodo para obter permissões do usuário
+    private function getPermissoes(PCempr $user)
+    {
+        try {
+            $permissoes = DB::connection('oracle')
+                ->table('pccontro')
+                ->where('codusuario', $user->matricula)
+                ->where('codrotina', 1444)
+                ->where('ACESSO', 'S')
+                ->get();
 
-            Auth::login($pcempr);
+            if ($permissoes->isEmpty()) {
+                $this->alertaErro('Usuário sem permissão');
+                return false;
+            }
 
-            return redirect()->route('home');
+            return $this->montarPermissoes($permissoes, $user->matricula);
+        } catch (Exception $e) {
+            $this->alertaErro('Erro ao obter permissões: ' . $e->getMessage());
+            return false;
         }
+    }
 
+    // Metodo para montar as permissões da PCCONTRO e PCCONTROI
+    private function montarPermissoes($permissoes, $matricula)
+    {
+        try {
+            $resultado = [];
+
+            foreach ($permissoes as $contro) {
+                $contro->pccontroi = DB::connection('oracle')
+                    ->table('pccontroi')
+                    ->where('codrotina', $contro->codrotina)
+                    ->where('codusuario', $matricula)
+                    ->where('ACESSO', 'S')
+                    ->get();
+
+                $resultado[] = $contro;
+            }
+
+            return $resultado;
+        } catch (Exception $e) {
+            $this->alertaErro('Erro ao montar permissões: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Metodo para exibir alertas de erro
+    private function alertaErro($mensagem)
+    {
+        $this->alert('error', $mensagem, [
+            'timer' => 3000,
+            'toast' => true,
+            'timerProgressBar' => true,
+        ]);
     }
 
     public function render()

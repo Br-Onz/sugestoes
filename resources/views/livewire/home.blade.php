@@ -71,6 +71,7 @@
                                             <input
                                                 class="form-control"
                                                 type="number"
+                                                step="0.001"
                                                 placeholder="Digite a quantidade"
                                                 wire:model="quantidade"
                                                 id="quantidade"
