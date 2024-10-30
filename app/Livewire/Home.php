@@ -2,8 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Pclib;
-use Dflydev\DotAccessData\Data;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
